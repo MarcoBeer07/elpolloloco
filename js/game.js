@@ -1,11 +1,9 @@
 let canvas;
 let ctx;
-let character = new Image();
+let character = new Character();
 
 function init() {
     canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    character.src = '../img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png';
+    ctx = canvas.getContext('2d');
 
-    ctx.drawImage(character, 20, 20, 50, 150)
 }
