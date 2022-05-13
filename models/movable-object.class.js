@@ -1,3 +1,6 @@
+/**
+ * Class for all objects that are moving on the canvas
+ */
 class MovableObject {
     x = 120;
     y = 250;
