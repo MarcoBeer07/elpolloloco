@@ -10,6 +10,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
 
+
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {

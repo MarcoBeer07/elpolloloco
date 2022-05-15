@@ -7,6 +7,7 @@ class DrawableObject {
     height = 100;
     width = 150;
 
+
     loadImage(path) {
         this.img = new Image(); //this.img = document.getElementById('image')
         this.img.src = path;
