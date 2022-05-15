@@ -70,7 +70,7 @@ class Character extends MovableObject {
                 //this.walking_sound.play();
                 this.otherDirection = true;
             }
-
+            //Jumping
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
             }
@@ -94,9 +94,5 @@ class Character extends MovableObject {
                 }
             }
         }, 8000 / 60)
-    }
-
-    jump() {
-        this.speedY = 10;
     }
 }

@@ -1,14 +1,7 @@
 /**
  * Class for all objects that are moving on the canvas
  */
-class MovableObject {
-    x = 120;
-    y = 250;
-    img;
-    height = 150;
-    width = 150;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
     speed;
     speedY = 0;
     acceleration = 1;
@@ -28,25 +21,7 @@ class MovableObject {
     }
 
     isAboveGround() {
-        return this.y < 180;
-    }
-
-    loadImage(path) {
-        this.img = new Image(); //this.img = document.getElementById('image')
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.height, this.width);
-    }
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = "5";
-            ctx.strokeStyle = "blue";
-            ctx.rect(this.x, this.y, this.height, this.width);
-            ctx.stroke();
-        }
+        return this.y < 250;
     }
 
     isColliding(mo) {
@@ -75,19 +50,6 @@ class MovableObject {
         return timepassed < 1.2;
     }
 
-    /**
-     * 
-     * @param {Array} arr - ['img/image1.png, 'img/image2.png', ...]
-     */
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        })
-
-    }
-
     playAnimation(images) {
         let i = this.currentImage % images.length; // let i = 5 % 6; => 0, Rest 5 // i= 0,1,2,3,4,5,6 repeat 0,1,2,3,4,5,6,...
         let path = images[i]
@@ -96,7 +58,7 @@ class MovableObject {
     }
 
     jump() {
-        this.speedY = 10
+        this.speedY = 15;
     }
 
     moveRight() {
