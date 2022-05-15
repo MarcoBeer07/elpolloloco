@@ -1,7 +1,7 @@
 class Character extends MovableObject {
-    speed = 8;
-    height = 100;
-    width = 150;
+    speed = 5;
+    height = 90;
+    width = 240;
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-22.png',
@@ -49,7 +49,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.applyGravity()
+        this.applyGravity();
         this.animate();
 
     }
@@ -61,7 +61,7 @@ class Character extends MovableObject {
             //Walking to the right
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                //this.walking_sound.play();
+                // this.walking_sound.play();
                 this.otherDirection = false;
             }
             //Walking to the left

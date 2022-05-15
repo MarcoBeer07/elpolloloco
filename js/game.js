@@ -1,12 +1,19 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+game_sound = new Audio('audio/game_music.mp3');
+intro_sound = new Audio('audio/running.mp3');
+
 
 
 function init() {
 
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
+    // this.game_sound.play();
+
+
+
 
 }
 
@@ -27,6 +34,9 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = true;
     }
+    if (e.keyCode == 13) {
+        keyboard.ENTER = true;
+    }
 });
 
 window.addEventListener("keyup", (e) => {
@@ -44,5 +54,8 @@ window.addEventListener("keyup", (e) => {
     }
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
+    }
+    if (e.keyCode == 13) {
+        keyboard.ENTER = false;
     }
 });
