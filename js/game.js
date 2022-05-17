@@ -7,13 +7,10 @@ intro_sound = new Audio('audio/running.mp3');
 
 
 function init() {
-
+    document.getElementById('startscreen').classList.add('d-none');
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     // this.game_sound.play();
-
-
-
 
 }
 

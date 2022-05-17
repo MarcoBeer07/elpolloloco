@@ -1,13 +1,16 @@
 class World {
     character = new Character();
+    throwableObjects = new ThrowableObject();
     level = level1;
+    //enemies = level1.enemies;
+    //clouds = level1.clouds;
+    //backgroundObjects = level1.backgroundObjects;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObject = [];
-    idle = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -16,6 +19,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+
+
     }
 
     setWorld() {
@@ -24,16 +29,14 @@ class World {
 
     run() {
         setInterval(() => {
-
             this.checkCollisions();
             this.checkThrowObjects();
-
         }, 200);
     }
 
     checkThrowObjects() {
         if (this.keyboard.ENTER) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
+            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
             this.throwableObject.push(bottle);
         }
     }
@@ -42,8 +45,13 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
-                this.statusbar.setPercentage(this.character.energy);
-                console.log(this.character.energy)
+                this.statusBar.setPercentage(this.character.energy);
+                console.log('Character trifft Gegner');
+            } else if (this.throwableObjects.isColliding(enemy)) {
+                console.log('Flasche trifft Gegner');
+                setInterval(() => {
+                    this.playAnimation(this.IMAGES_SALSA_SPLASH);
+                }, 8000 / 60)
             }
         });
     }
@@ -54,6 +62,8 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+
 
 
         this.ctx.translate(-this.camera_x, 0);
@@ -62,9 +72,9 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
 
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.character);
+
 
 
         this.addObjectsToMap(this.throwableObject);
@@ -106,4 +116,5 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
 }

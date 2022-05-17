@@ -1,7 +1,6 @@
 class Endboss extends MovableObject {
 
-    height = 500;
-    width = 400;
+
     y = 30;
     IMAGES_WALKING = [
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/1.Alerta/G5.png',
@@ -17,6 +16,8 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
+        this.height = 500;
+        this.width = 400;
         this.x = 2100;
         this.animate();
 

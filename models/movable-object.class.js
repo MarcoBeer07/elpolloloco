@@ -22,7 +22,7 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        if ((this instanceof ThrowableObject)) { // Throwable objects should always fall
+        if (this instanceof ThrowableObject) { // Throwable objects should always fall
             return true;
         } else {
             return this.y < 175;
@@ -33,7 +33,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
             this.x < mo.x &&
-            this.y < mo.y + mo.height
+            this.y < mo.y + mo.height;
     }
 
     hit() {
@@ -43,6 +43,7 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
+        console.log(this.energy)
     }
 
     isDead() {

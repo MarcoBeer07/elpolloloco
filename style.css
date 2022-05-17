@@ -20,6 +20,37 @@ canvas {
     margin-bottom: 100px;
 }
 
+.d-none {
+    display: none;
+}
+
+.startscreen {
+    position: relative;
+    position: absolute;
+    top: 150px;
+}
+
+.startscreen img {
+    width: 720px;
+    height: 480px;
+}
+
+.start-button {
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 50px;
+    background-color: rgb(255, 255, 137);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    height: 80px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
