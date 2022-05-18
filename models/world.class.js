@@ -2,9 +2,6 @@ class World {
     character = new Character();
     throwableObjects = new ThrowableObject();
     level = level1;
-    //enemies = level1.enemies;
-    //clouds = level1.clouds;
-    //backgroundObjects = level1.backgroundObjects;
     canvas;
     ctx;
     keyboard;
@@ -16,10 +13,10 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+
         this.draw();
         this.setWorld();
         this.run();
-
 
     }
 
@@ -31,7 +28,9 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+            this.checkCollissionBottles();
+
+        }, 120);
     }
 
     checkThrowObjects() {
@@ -56,29 +55,37 @@ class World {
         });
     }
 
+    checkCollissionBottles() {
+        this.level.collectableObject.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                console.log('character trifft flasche')
+            }
+        });
+    }
+
+
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
 
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.clouds);
 
+        this.addObjectsToMap(this.level.clouds);
 
 
         this.ctx.translate(-this.camera_x, 0);
         // Space for fixed objects
         this.addToMap(this.statusBar);
         this.ctx.translate(this.camera_x, 0);
-
-
-        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
 
 
+        this.addObjectsToMap(this.level.collectableObject);
+
+        this.addObjectsToMap(this.level.enemies);
 
         this.addObjectsToMap(this.throwableObject);
-
 
         this.ctx.translate(-this.camera_x, 0);
 

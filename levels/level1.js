@@ -1,13 +1,27 @@
 const level1 = new Level(
+
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
         new Endboss(),
+        new Chicken(),
+        new Chicken()
+
     ],
 
     [
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud(),
+        new Cloud()
+    ],
+
+    [
+
         new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', -749),
         new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', -749),
         new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', -749),
@@ -63,17 +77,18 @@ const level1 = new Level(
         new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 749 * 9),
         new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 749 * 9)
 
-    ], [
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud()
     ],
+
+    [
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+        new CollectableObject(),
+    ],
+
 
 );

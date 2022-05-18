@@ -7,7 +7,7 @@ intro_sound = new Audio('audio/running.mp3');
 
 
 function init() {
-    document.getElementById('startscreen').classList.add('d-none');
+    //document.getElementById('startscreen').classList.add('d-none');
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     // this.game_sound.play();
@@ -31,7 +31,7 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = true;
     }
-    if (e.keyCode == 13) {
+    if (e.keyCode == 81) {
         keyboard.ENTER = true;
     }
 });
@@ -52,7 +52,9 @@ window.addEventListener("keyup", (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
     }
-    if (e.keyCode == 13) {
+    if (e.keyCode == 81) {
         keyboard.ENTER = false;
     }
 });
+
+//13 Enter

@@ -20,7 +20,6 @@ class ThrowableObject extends MovableObject {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_SALSA);
         this.loadImages(this.IMAGES_SALSA_SPLASH);
-
         this.throw();
         this.x = x;
         this.y = y;
