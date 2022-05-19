@@ -1,5 +1,6 @@
 class ThrowableObject extends MovableObject {
 
+
     IMAGES_SALSA = [
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 4.png',
         'img/6.botella/Rotación/Mesa de trabajo 1 copia 5.png',
@@ -13,18 +14,23 @@ class ThrowableObject extends MovableObject {
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 11.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 12.png',
     ]
-
+    world;
+    bottleHitsEnemy = false;
 
 
     constructor(x, y) {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_SALSA);
         this.loadImages(this.IMAGES_SALSA_SPLASH);
+
         this.throw();
+        this.bottleAnimation();
+
         this.x = x;
         this.y = y;
         this.height = 70;
         this.width = 60;
+        console.log(this.bottleHitsEnemy)
     }
 
     throw () {
@@ -33,19 +39,27 @@ class ThrowableObject extends MovableObject {
         setInterval(() => {
             this.x += 7;
         }, 25);
-        this.animate();
-
     }
 
-    animate() {
+    bottleAnimation() {
+
         setInterval(() => {
-            this.playAnimation(this.IMAGES_SALSA);
+            if (this.bottleHitsEnemy) {
+                this.stopBottleAndSplash();
+            } else {
+                this.spinBottle();
+            }
+            this.bottleHitsEnemy = false;
 
-        }, 4000 / 60)
+        }, 100);
+    };
 
+    stopBottleAndSplash() {
+        this.playAnimation(this.IMAGES_SALSA_SPLASH);
     }
 
-
-
+    spinBottle() {
+        this.playAnimation(this.IMAGES_SALSA);
+    }
 
 }

@@ -15,9 +15,9 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.height = 500;
-        this.width = 400;
-        this.y = 30;
+        this.height = 400;
+        this.width = 350;
+        this.y = 60;
         this.x = 5000;
         this.animate();
 

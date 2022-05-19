@@ -6,6 +6,7 @@ class Level {
 
     level_end_x = 6000;
 
+
     constructor(enemies, clouds, backgroundObjects, collectableObject) {
         this.enemies = enemies;
         this.clouds = clouds;
