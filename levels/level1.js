@@ -1,11 +1,15 @@
 const level1 = new Level(
 
     [
-        new Endboss(),
+        new Chicken(),
+        new Chicken(),
+        new Chicken(),
         new Chicken(),
         new Chicken()
-
+    ], [
+        new Endboss()
     ],
+
 
     [
         new Cloud(),
@@ -75,8 +79,42 @@ const level1 = new Level(
         new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 9),
         new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', 720 * 9),
         new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 720 * 9),
-        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 720 * 9)
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 720 * 9),
 
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 10),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 720 * 10),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/1.png', 720 * 10),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/1.png', 720 * 10),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 11),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', 720 * 11),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 720 * 11),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 720 * 11),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 12),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 720 * 12),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/1.png', 720 * 12),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/1.png', 720 * 12),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 13),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', 720 * 13),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 720 * 13),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 720 * 13),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 14),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 720 * 14),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/1.png', 720 * 14),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/1.png', 720 * 14),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 15),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', 720 * 15),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', 720 * 15),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/2.png', 720 * 15),
+
+        new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', 720 * 16),
+        new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/1.png', 720 * 16),
+        new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/1.png', 720 * 16),
+        new BackgroundObject('img/5.Fondo/Capas/1.suelo-fondo1/1.png', 720 * 16),
     ],
 
     [
@@ -88,6 +126,18 @@ const level1 = new Level(
         new CollectableObject(),
         new CollectableObject(),
         new CollectableObject(),
+    ],
+
+    [
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+
     ],
 
 

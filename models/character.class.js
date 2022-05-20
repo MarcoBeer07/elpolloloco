@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 30;
+    speed = 10;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -82,14 +82,13 @@ class Character extends MovableObject {
         this.width = 90;
 
         this.x = 150;
-        this.y = 80;
+        this.y = 185;
         this.applyGravity();
         this.animate();
 
     }
 
     animate() {
-
         setInterval(() => {
             this.walking_sound.pause();
             //Walking to the right

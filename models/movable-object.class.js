@@ -24,7 +24,7 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) { // Throwable objects should always fall
             return true;
         } else {
-            return this.y < 175;
+            return this.y < 185;
         }
     }
 

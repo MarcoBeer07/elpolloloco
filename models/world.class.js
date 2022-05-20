@@ -3,12 +3,15 @@ class World {
     throwableObjects = new ThrowableObject();
     healthBar = new HealthBar();
     bottleBar = new BottleBar();
+    coinBar = new CoinBar();
+    chicken = new Chicken();
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     collectedBottle = 'bottle';
+    collectedCoin = 'coin';
     throwedBottles = [];
 
 
@@ -16,11 +19,9 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-
         this.draw();
         this.setWorld();
         this.run();
-
     }
 
     setWorld() {
@@ -29,15 +30,16 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisionsCharacterWithEnemy();
+            this.checkCollisionsCharacterWithChickens();
             this.checkThrowObjects();
         }, 120);
         setInterval(() => {
             this.checkCollisionsCharacterWithBottles();
-            this.checkCollisionsBottleWithEnemy()
+            this.checkCollisionsCharacterWithCoins()
+            this.checkCollisionsBottleWithChickens()
         }, 10);
         setInterval(() => {
-            this.checkCollisionsBottleWithEnemy()
+            this.checkCollisionsBottleWithChickens()
         }, 5000);
 
     }
@@ -59,9 +61,9 @@ class World {
         }
     }
 
-    checkCollisionsCharacterWithEnemy() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+    checkCollisionsCharacterWithChickens() {
+        this.level.chickens.forEach((chicken) => {
+            if (this.character.isColliding(chicken)) {
                 this.character.hit();
                 this.healthBar.setPercentageHealth(this.character.energy);
                 console.log('Character trifft Gegner');
@@ -69,23 +71,20 @@ class World {
         });
     }
 
-    checkCollisionsBottleWithEnemy() {
-        this.level.enemies.forEach(enemy => {
+    checkCollisionsBottleWithChickens() {
+        this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
-                if (bottle.isColliding(enemy)) {
+                if (bottle.isColliding(chicken)) {
                     console.log('Flasche trifft Gegner');
                     bottle.bottleHitsEnemy = true;
+                    chicken.bottleHitsChicken = true;
                     this.removeSplashedBottle()
-                    console.log(this.throwableObjects.bottleHitsEnemy);
+                    setTimeout(() => {
+                        chicken.y = 500;
+                    }, 3000);
                 }
             });
         });
-    }
-
-    removeSplashedBottle() {
-        setTimeout(() => {
-            this.throwedBottles.splice(0, 1);
-        }, 350);
     }
 
     checkCollisionsCharacterWithBottles() {
@@ -99,7 +98,41 @@ class World {
         });
     }
 
+    checkCollisionsCharacterWithCoins() {
+        this.level.collectableCoins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.level.collectableCoins.splice(index, 1);
+                this.updateCoinbar();
+            } else if (this.coinBar.coins.length >= 5) {
+                this.addHealthtoCharacter();
+                this.resetCoinbar();
+            }
+        });
+    }
 
+    updateCoinbar(index) {
+        this.level.collectableCoins.splice(index, 1);
+        this.coinBar.percentage += 20;
+        this.coinBar.setPercentageCoin(this.coinBar.percentage);
+        this.coinBar.coins.push(this.collectedCoin);
+    }
+
+    addHealthtoCharacter() {
+        this.character.energy += 20;
+        this.healthBar.setPercentageHealth(this.character.energy);
+    }
+
+    resetCoinbar() {
+        this.coinBar.percentage -= 100;
+        this.coinBar.setPercentageCoin(this.coinBar.percentage);
+        this.coinBar.coins.splice(0);
+    }
+
+    removeSplashedBottle() {
+        setTimeout(() => {
+            this.throwedBottles.splice(0, 1);
+        }, 350);
+    }
 
 
     draw() {
@@ -114,12 +147,15 @@ class World {
         // Space for fixed objects 
         this.addToMap(this.healthBar);
         this.addToMap(this.bottleBar);
+        this.addToMap(this.coinBar);
         // Space for fixed objects
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.collectableObject);
-        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.collectableCoins);
+        this.addObjectsToMap(this.level.chickens);
+        this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwedBottles);
 
         this.ctx.translate(-this.camera_x, 0);
