@@ -137,6 +137,10 @@ const level1 = new Level(
         new CollectableCoins(),
         new CollectableCoins(),
         new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
+        new CollectableCoins(),
 
     ],
 

@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 10;
+    speed = 25;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -83,6 +83,8 @@ class Character extends MovableObject {
 
         this.x = 150;
         this.y = 185;
+        this.checkCharacterPosition();
+
         this.applyGravity();
         this.animate();
 
@@ -96,6 +98,7 @@ class Character extends MovableObject {
                 this.moveRight();
                 // this.walking_sound.play();
                 this.otherDirection = false;
+                console.log(this.x)
             }
             //Walking to the left
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -127,6 +130,15 @@ class Character extends MovableObject {
 
             }
         }, 9000 / 60)
+    }
+
+    checkCharacterPosition() {
+        setInterval(() => {
+            if (this.x == 10000) {
+                this.bossAnimation = true;
+                console.log(this.bossAnimation)
+            }
+        }, 100 / 60)
     }
 }
 

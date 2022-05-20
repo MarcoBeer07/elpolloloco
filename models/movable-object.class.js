@@ -8,6 +8,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     energy = 100;
     lastHit = 0;
+    bossAnimation = false;
 
 
     applyGravity() {
@@ -64,6 +65,13 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 15;
+    }
+
+    jumpsOnTop(mo) {
+        return this.y + this.height > mo.y &&
+            this.y + this.height < mo.y + mo.height &&
+            this.x + this.width > mo.x &&
+            this.x + this.width < (mo.x + mo.width + 50);
     }
 
     moveRight() {

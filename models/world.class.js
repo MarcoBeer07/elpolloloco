@@ -44,29 +44,31 @@ class World {
 
     }
 
-    //checkThrowObjects(index) {
-    //if (this.keyboard.ENTER && this.bottleBar.bottles.length > 0) {
-    //let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-    //this.throwableObject.push(bottle);
-    //this.bottleBar.bottles.splice(index, 1)
-    //this.bottleBar.percentage -= 20;
-    //this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
-    //}
-    //}
-    //for testing
-    checkThrowObjects() {
-        if (this.keyboard.ENTER) {
-            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-            this.throwedBottles.push(bottle);
+    checkThrowObjects(index) {
+            if (this.keyboard.ENTER && this.bottleBar.bottles.length > 0) {
+                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+                this.throwedBottles.push(bottle);
+                this.bottleBar.bottles.splice(index, 1)
+                this.bottleBar.percentage -= 20;
+                this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
+            }
         }
-    }
+        //for testing
+        /*checkThrowObjects() {
+            if (this.keyboard.ENTER) {
+                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+                this.throwedBottles.push(bottle);
+            }
+        }*/
 
     checkCollisionsCharacterWithChickens() {
         this.level.chickens.forEach((chicken) => {
-            if (this.character.isColliding(chicken)) {
+            if (this.character.isColliding(chicken) && chicken.bottleHitsChicken == false && !this.character.isAboveGround()) {
                 this.character.hit();
                 this.healthBar.setPercentageHealth(this.character.energy);
                 console.log('Character trifft Gegner');
+            } else if (this.character.jumpsOnTop(chicken)) {
+                chicken.bottleHitsChicken = true;
             }
         });
     }
@@ -103,7 +105,7 @@ class World {
             if (this.character.isColliding(coin)) {
                 this.level.collectableCoins.splice(index, 1);
                 this.updateCoinbar();
-            } else if (this.coinBar.coins.length >= 5) {
+            } else if (this.coinBar.coins.length >= 5 && this.character.energy < 100) {
                 this.addHealthtoCharacter();
                 this.resetCoinbar();
             }
