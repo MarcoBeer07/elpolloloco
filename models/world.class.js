@@ -5,6 +5,7 @@ class World {
     bottleBar = new BottleBar();
     coinBar = new CoinBar();
     chicken = new Chicken();
+    endboss = new Endboss();
     level = level1;
     canvas;
     ctx;
@@ -31,6 +32,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisionsCharacterWithChickens();
+            this.checkCollisionsCharacterWithEndboss()
             this.checkThrowObjects();
         }, 120);
         setInterval(() => {
@@ -73,6 +75,16 @@ class World {
         });
     }
 
+    checkCollisionsCharacterWithEndboss() {
+        this.level.endboss.forEach(endboss => {
+            if (this.character.isColliding(endboss)) {
+                this.character.hit();
+                this.healthBar.setPercentageHealth(this.character.energy);
+                console.log('Character trifft Gegner');
+            }
+        })
+    }
+
     checkCollisionsBottleWithChickens() {
         this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
@@ -88,6 +100,7 @@ class World {
             });
         });
     }
+
 
     checkCollisionsCharacterWithBottles() {
         this.level.collectableObject.forEach((bottle, index) => {
