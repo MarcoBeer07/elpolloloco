@@ -30,7 +30,6 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 70;
         this.width = 60;
-        console.log(this.bottleHitsEnemy)
     }
 
     throw () {
@@ -42,16 +41,22 @@ class ThrowableObject extends MovableObject {
     }
 
     bottleAnimation() {
-
         setInterval(() => {
             if (this.bottleHitsEnemy) {
                 this.stopBottleAndSplash();
-            } else {
+            }
+        }, 100 / 60);
+
+        setInterval(() => {
+            if (!this.bottleHitsEnemy) {
                 this.spinBottle();
             }
-            this.bottleHitsEnemy = false;
 
-        }, 100);
+        }, 8000 / 60);
+        this.bottleHitsEnemy = false;
+
+
+
     };
 
     stopBottleAndSplash() {

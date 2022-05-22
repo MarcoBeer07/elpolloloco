@@ -10,7 +10,7 @@ class Chicken extends MovableObject {
     ]
     level;
     bottleHitsChicken = false;
-    constructor() {
+    constructor(x) {
         super().loadImage('img/3.Secuencias_Enemy_básico/Versión_Gallinita (estas salen por orden de la gallina gigantona)/1.Ga_paso_derecho.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
@@ -18,7 +18,7 @@ class Chicken extends MovableObject {
         this.width = 70;
         this.height = 80;
         this.y = 340;
-        this.x = 600 + Math.random() * 5000; // Zahl zwischen 200 und 700
+        this.x = x; // Zahl zwischen 200 und 700
         this.speed = 2.50 + Math.random() * 2;
     }
 

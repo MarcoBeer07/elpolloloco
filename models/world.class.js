@@ -1,15 +1,17 @@
 class World {
-    character = new Character();
     throwableObjects = new ThrowableObject();
     healthBar = new HealthBar();
     bottleBar = new BottleBar();
     coinBar = new CoinBar();
     chicken = new Chicken();
     endboss = new Endboss();
+    character = new Character();
+
+    bossBar = new EndbossBar();
     level = level1;
     canvas;
     ctx;
-    keyboard;
+    keyboard = new Keyboard();
     camera_x = 0;
     collectedBottle = 'bottle';
     collectedCoin = 'coin';
@@ -21,6 +23,7 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
+
         this.setWorld();
         this.run();
     }
@@ -37,40 +40,48 @@ class World {
         }, 120);
         setInterval(() => {
             this.checkCollisionsCharacterWithBottles();
-            this.checkCollisionsCharacterWithCoins()
-            this.checkCollisionsBottleWithChickens()
+            this.checkCollisionsCharacterWithCoins();
+            this.checkCollisionsBottleWithChickens();
         }, 10);
         setInterval(() => {
-            this.checkCollisionsBottleWithChickens()
-        }, 5000);
+            this.checkCollisionsBottleWithEndboss();
+
+        }, 1500);
+
 
     }
 
-    checkThrowObjects(index) {
-            if (this.keyboard.ENTER && this.bottleBar.bottles.length > 0) {
-                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-                this.throwedBottles.push(bottle);
-                this.bottleBar.bottles.splice(index, 1)
-                this.bottleBar.percentage -= 20;
-                this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
-            }
+    /*checkThrowObjects(index) {
+        if (this.keyboard.ENTER && this.bottleBar.bottles.length > 0) {
+            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+            this.throwedBottles.push(bottle);
+            this.bottleBar.bottles.splice(index, 1)
+            this.bottleBar.percentage -= 20;
+            this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
+            console.log(this.bottleBar.bottles)
         }
-        //for testing
-        /*checkThrowObjects() {
-            if (this.keyboard.ENTER) {
-                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-                this.throwedBottles.push(bottle);
-            }
-        }*/
+    }*/
+
+
+    //for testing
+    checkThrowObjects() {
+        if (this.keyboard.ENTER) {
+            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+            this.throwedBottles.push(bottle);
+        }
+    }
 
     checkCollisionsCharacterWithChickens() {
         this.level.chickens.forEach((chicken) => {
             if (this.character.isColliding(chicken) && chicken.bottleHitsChicken == false && !this.character.isAboveGround()) {
-                this.character.hit();
+                this.character.hit(3);
                 this.healthBar.setPercentageHealth(this.character.energy);
                 console.log('Character trifft Gegner');
             } else if (this.character.jumpsOnTop(chicken)) {
                 chicken.bottleHitsChicken = true;
+                setTimeout(() => {
+                    chicken.y = 500;
+                }, 3000);
             }
         });
     }
@@ -78,9 +89,8 @@ class World {
     checkCollisionsCharacterWithEndboss() {
         this.level.endboss.forEach(endboss => {
             if (this.character.isColliding(endboss)) {
-                this.character.hit();
+                this.character.hit(10);
                 this.healthBar.setPercentageHealth(this.character.energy);
-                console.log('Character trifft Gegner');
             }
         })
     }
@@ -89,7 +99,6 @@ class World {
         this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
                 if (bottle.isColliding(chicken)) {
-                    console.log('Flasche trifft Gegner');
                     bottle.bottleHitsEnemy = true;
                     chicken.bottleHitsChicken = true;
                     this.removeSplashedBottle()
@@ -101,11 +110,31 @@ class World {
         });
     }
 
+    checkCollisionsBottleWithEndboss() {
+        this.level.endboss.forEach(endboss => {
+            this.throwedBottles.forEach(bottle => {
+                if (bottle.isColliding(endboss)) {
+                    bottle.bottleHitsEnemy = true;
+                    endboss.bossHitted = true;
+                    this.removeSplashedBottle()
+                    this.endboss.hit(10);
+                    this.bossBar.setPercentageHealth(this.endboss.energy);
+                } else if (this.endboss.energy == 0) {
+                    bottle.bottleHitsEnemy = true;
+                    endboss.bossDead = true;
+                    endboss.bossHitted = true;
+                    this.removeSplashedBottle()
+                }
+            });
+        });
+    }
+
+
 
     checkCollisionsCharacterWithBottles() {
-        this.level.collectableObject.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle)) {
-                this.level.collectableObject.splice(index, 1);
+        this.level.collectableBottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle) && this.bottleBar.bottles.length < 5) {
+                this.level.collectableBottles.splice(index, 1);
                 this.bottleBar.percentage += 20;
                 this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
                 this.bottleBar.bottles.push(this.collectedBottle);
@@ -115,7 +144,7 @@ class World {
 
     checkCollisionsCharacterWithCoins() {
         this.level.collectableCoins.forEach((coin, index) => {
-            if (this.character.isColliding(coin)) {
+            if (this.character.isColliding(coin) && this.coinBar.coins.length < 5) {
                 this.level.collectableCoins.splice(index, 1);
                 this.updateCoinbar();
             } else if (this.coinBar.coins.length >= 5 && this.character.energy < 100) {
@@ -145,8 +174,8 @@ class World {
 
     removeSplashedBottle() {
         setTimeout(() => {
-            this.throwedBottles.splice(0, 1);
-        }, 350);
+            this.throwedBottles.splice(1, 0);
+        }, 100);
     }
 
 
@@ -163,11 +192,14 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.bottleBar);
         this.addToMap(this.coinBar);
+        if (this.character.x >= 8500) {
+            this.addToMap(this.bossBar);
+        }
         // Space for fixed objects
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.collectableObject);
+        this.addObjectsToMap(this.level.collectableBottles);
         this.addObjectsToMap(this.level.collectableCoins);
         this.addObjectsToMap(this.level.chickens);
         this.addObjectsToMap(this.level.endboss);

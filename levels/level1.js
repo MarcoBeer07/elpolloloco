@@ -1,11 +1,12 @@
 const level1 = new Level(
 
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken()
+        new Chicken(1000),
+        new Chicken(2000),
+        new Chicken(2500),
+        new Chicken(3000),
+        new Chicken(4000),
+        new Chicken(5000)
     ],
 
     [
@@ -120,14 +121,18 @@ const level1 = new Level(
     ],
 
     [
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
-        new CollectableObject(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
+        new CollectableBottles(),
     ],
 
     [

@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 1;
     otherDirection = false;
-    energy = 100;
+    energy;
     lastHit = 0;
     bossAnimation = false;
 
@@ -32,18 +32,17 @@ class MovableObject extends DrawableObject {
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
-            this.x < mo.x &&
+            this.x < mo.x + mo.width &&
             this.y < mo.y + mo.height;
     }
 
-    hit() {
-        this.energy -= 10;
+    hit(damage) {
+        this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
-        console.log(this.energy)
     }
 
     isDead() {
@@ -67,11 +66,11 @@ class MovableObject extends DrawableObject {
         this.speedY = 15;
     }
 
-    jumpsOnTop(mo) {
-        return this.y + this.height > mo.y &&
-            this.y + this.height < mo.y + mo.height &&
-            this.x + this.width > mo.x &&
-            this.x + this.width < (mo.x + mo.width + 50);
+    jumpsOnTop(jo) {
+        return this.y + this.height > jo.y &&
+            this.y + this.height < jo.y + jo.height &&
+            this.x + this.width > jo.x &&
+            this.x + this.width < (jo.x + jo.width + 50);
     }
 
     moveRight() {

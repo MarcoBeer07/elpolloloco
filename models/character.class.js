@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 7;
+    speed = 8;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -63,7 +63,6 @@ class Character extends MovableObject {
         'img/2.Secuencias_Personaje-Pepe-corrección/4.Herido/H-42.png',
         'img/2.Secuencias_Personaje-Pepe-corrección/4.Herido/H-43.png'
     ];
-
     world;
     walking_sound = new Audio('audio/running.mp3');
 
@@ -75,44 +74,35 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.height = 240;
-        this.width = 90;
-
-        this.x = 150;
-        this.y = 185;
-        this.checkCharacterPosition();
-
         this.applyGravity();
         this.animate();
-
+        this.energy = 100;
+        this.height = 240;
+        this.width = 90;
+        this.x = 150;
+        this.y = 185;
     }
 
     animate() {
         setInterval(() => {
             this.walking_sound.pause();
-            //Walking to the right
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 // this.walking_sound.play();
                 this.otherDirection = false;
-                console.log(this.x)
             }
-            //Walking to the left
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 //this.walking_sound.play();
                 this.otherDirection = true;
             }
-            //Jumping
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
-
-        }, 1000 / 60)
+        }, 100 / 60)
 
         setInterval(() => {
-
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
@@ -122,21 +112,13 @@ class Character extends MovableObject {
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING);
             } else if (!this.world.keyboard.RIGHT || !this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_IDLE)
-
-
+                this.playAnimation(this.IMAGES_IDLE);
+            } else if (!this.world.keyboard.RIGHT || !this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_LONG_IDLE);
             }
         }, 10000 / 60)
     }
 
-    checkCharacterPosition() {
-        setInterval(() => {
-            if (this.x == 10000) {
-                this.bossAnimation = true;
-                console.log(this.bossAnimation)
-            }
-        }, 100 / 60)
-    }
 }
 
 //this.playAnimation(this.IMAGES_LONG_IDLE)

@@ -3,11 +3,11 @@ class HealthBar extends DrawableObject {
 
     IMAGES = [
         'img/7.Marcadores/Barra/Marcador vida/azul/0_.png',
-        'img/7.Marcadores/Barra/Marcador vida/azul/20_.png',
-        'img/7.Marcadores/Barra/Marcador vida/azul/40_.png',
-        'img/7.Marcadores/Barra/Marcador vida/azul/60_.png',
-        'img/7.Marcadores/Barra/Marcador vida/azul/80_.png',
-        'img/7.Marcadores/Barra/Marcador vida/azul/100_.png'
+        'img/7.Marcadores/Barra/Marcador vida/Naranja/20_1.png',
+        'img/7.Marcadores/Barra/Marcador vida/Naranja/40_.png',
+        'img/7.Marcadores/Barra/Marcador vida/Naranja/60_.png',
+        'img/7.Marcadores/Barra/Marcador vida/Naranja/80_.png',
+        'img/7.Marcadores/Barra/Marcador vida/verde/100_.png'
     ];
 
     percentage = 100;
