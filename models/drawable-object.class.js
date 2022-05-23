@@ -7,7 +7,6 @@ class DrawableObject {
     height;
     width;
 
-
     loadImage(path) {
         this.img = new Image(); //this.img = document.getElementById('image')
         this.img.src = path;
@@ -57,7 +56,7 @@ class DrawableObject {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof CollectableBottles || this instanceof CollectableCoins) {
             ctx.beginPath();
             ctx.lineWidth = "0";
-            ctx.strokeStyle = "blue";
+            ctx.strokeStyle = "transparent";
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.stroke();
         }

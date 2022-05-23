@@ -6,9 +6,9 @@ class CollectableBottles extends MovableObject {
         'img/6.botella/2.Botella_enterrada2.png'
     ]
 
-    constructor() {
+    constructor(x) {
         super().loadImage('img/6.botella/2.Botella_enterrada1.png');
-        this.x = 200 + Math.random() * 4000; // Zahl zwischen 200 und 700
+        this.x = x;
         this.width = 90;
         this.height = 80;
         this.y = 350;

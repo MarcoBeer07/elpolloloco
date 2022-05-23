@@ -42,11 +42,12 @@ class Endboss extends MovableObject {
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G19.png',
         'img/4.Secuencias_Enemy_gigantón-Doña_Gallinota-/2.Ateción-ataque/2.Ataque/G20.png',
     ];
-    world;
     contactWithBoss = false;
     bossHitted = false;
     bossDead = false;
     startBossAnimation = false;
+
+
 
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
@@ -68,7 +69,6 @@ class Endboss extends MovableObject {
     animate() {
         let i = 0;
         setInterval(() => {
-
             if (i < 30 && !this.bossHitted && !this.bossDead) {
                 this.playAnimation(this.IMAGES_WALKING);
                 this.moveLeft();
@@ -85,18 +85,13 @@ class Endboss extends MovableObject {
                 }, 1500);
             } else if (this.bossDead) {
                 this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.world.character.x && !this.contactWithBoss) {
+            };
+            i++;
+            if (this.startBossAnimation && !this.contactWithBoss) {
                 i = 0;
                 this.contactWithBoss = true;
             }
-            i++;
-
-
-            console.log(i)
-
         }, 150)
     }
-
-
 }
 //this.world.character.x > 8500 &&

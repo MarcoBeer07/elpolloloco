@@ -22,10 +22,8 @@ class ThrowableObject extends MovableObject {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_SALSA);
         this.loadImages(this.IMAGES_SALSA_SPLASH);
-
         this.throw();
         this.bottleAnimation();
-
         this.x = x;
         this.y = y;
         this.height = 70;
@@ -46,17 +44,12 @@ class ThrowableObject extends MovableObject {
                 this.stopBottleAndSplash();
             }
         }, 100 / 60);
-
         setInterval(() => {
             if (!this.bottleHitsEnemy) {
                 this.spinBottle();
             }
-
         }, 8000 / 60);
         this.bottleHitsEnemy = false;
-
-
-
     };
 
     stopBottleAndSplash() {

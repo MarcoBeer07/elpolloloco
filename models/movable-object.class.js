@@ -8,7 +8,6 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     energy;
     lastHit = 0;
-    bossAnimation = false;
 
 
     applyGravity() {

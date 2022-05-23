@@ -16,6 +16,8 @@ class World {
     collectedBottle = 'bottle';
     collectedCoin = 'coin';
     throwedBottles = [];
+    collectedBottles = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 1, 1, 1, 1, 1, ];
+
 
 
     constructor(canvas, keyboard) {
@@ -23,7 +25,6 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
-
         this.setWorld();
         this.run();
     }
@@ -42,41 +43,38 @@ class World {
             this.checkCollisionsCharacterWithBottles();
             this.checkCollisionsCharacterWithCoins();
             this.checkCollisionsBottleWithChickens();
+
         }, 10);
         setInterval(() => {
             this.checkCollisionsBottleWithEndboss();
-
-        }, 1500);
+            this.setBossAnimation();
+        }, 10);
 
 
     }
 
-    /*checkThrowObjects(index) {
-        if (this.keyboard.ENTER && this.bottleBar.bottles.length > 0) {
+    checkThrowObjects(index) {
+        if (this.keyboard.ENTER && this.collectedBottles.length > 0) {
             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
             this.throwedBottles.push(bottle);
-            this.bottleBar.bottles.splice(index, 1)
-            this.bottleBar.percentage -= 20;
-            this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
-            console.log(this.bottleBar.bottles)
+            this.collectedBottles.splice(index, 1)
         }
-    }*/
+    }
 
 
     //for testing
-    checkThrowObjects() {
-        if (this.keyboard.ENTER) {
-            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-            this.throwedBottles.push(bottle);
-        }
-    }
+    /* checkThrowObjects() {
+         if (this.keyboard.ENTER) {
+             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+             this.throwedBottles.push(bottle);
+         }
+     }*/
 
     checkCollisionsCharacterWithChickens() {
         this.level.chickens.forEach((chicken) => {
             if (this.character.isColliding(chicken) && chicken.bottleHitsChicken == false && !this.character.isAboveGround()) {
                 this.character.hit(3);
                 this.healthBar.setPercentageHealth(this.character.energy);
-                console.log('Character trifft Gegner');
             } else if (this.character.jumpsOnTop(chicken)) {
                 chicken.bottleHitsChicken = true;
                 setTimeout(() => {
@@ -98,7 +96,7 @@ class World {
     checkCollisionsBottleWithChickens() {
         this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
-                if (bottle.isColliding(chicken)) {
+                if (bottle.isColliding(chicken) && !chicken.bottleHitsChicken) {
                     bottle.bottleHitsEnemy = true;
                     chicken.bottleHitsChicken = true;
                     this.removeSplashedBottle()
@@ -119,10 +117,10 @@ class World {
                     this.removeSplashedBottle()
                     this.endboss.hit(10);
                     this.bossBar.setPercentageHealth(this.endboss.energy);
+
                 } else if (this.endboss.energy == 0) {
                     bottle.bottleHitsEnemy = true;
                     endboss.bossDead = true;
-                    endboss.bossHitted = true;
                     this.removeSplashedBottle()
                 }
             });
@@ -133,11 +131,9 @@ class World {
 
     checkCollisionsCharacterWithBottles() {
         this.level.collectableBottles.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle) && this.bottleBar.bottles.length < 5) {
+            if (this.character.isColliding(bottle)) {
                 this.level.collectableBottles.splice(index, 1);
-                this.bottleBar.percentage += 20;
-                this.bottleBar.setPercentageBottle(this.bottleBar.percentage);
-                this.bottleBar.bottles.push(this.collectedBottle);
+                this.collectedBottles.push(this.collectedBottle);
             }
         });
     }
@@ -154,15 +150,15 @@ class World {
         });
     }
 
-    updateCoinbar(index) {
-        this.level.collectableCoins.splice(index, 1);
+    updateCoinbar() {
+        this.level.collectableCoins.splice(1, 0);
         this.coinBar.percentage += 20;
         this.coinBar.setPercentageCoin(this.coinBar.percentage);
         this.coinBar.coins.push(this.collectedCoin);
     }
 
     addHealthtoCharacter() {
-        this.character.energy += 20;
+        this.character.energy = 100;
         this.healthBar.setPercentageHealth(this.character.energy);
     }
 
@@ -176,6 +172,11 @@ class World {
         setTimeout(() => {
             this.throwedBottles.splice(1, 0);
         }, 100);
+    }
+    setBossAnimation() {
+        if (this.character.x >= 8500) {
+            this.endboss.startBossAnimation = true;
+        }
     }
 
 
@@ -192,6 +193,7 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.bottleBar);
         this.addToMap(this.coinBar);
+        this.drawBottleCounter();
         if (this.character.x >= 8500) {
             this.addToMap(this.bossBar);
         }
@@ -212,6 +214,12 @@ class World {
         requestAnimationFrame(function() {
             self.draw();
         });
+    }
+
+    drawBottleCounter() {
+        this.ctx.font = '20px serif';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.collectedBottles.length, 44.5, 158);
     }
 
     addObjectsToMap(objects) {
