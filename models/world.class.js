@@ -4,9 +4,9 @@ class World {
     bottleBar = new BottleBar();
     coinBar = new CoinBar();
     chicken = new Chicken();
-    endboss = new Endboss();
-    character = new Character();
-
+    endboss = new Endboss(this);
+    character = new Character(this);
+    bossWeapon = new BossWeapon();
     bossBar = new EndbossBar();
     level = level1;
     canvas;
@@ -16,6 +16,7 @@ class World {
     collectedBottle = 'bottle';
     collectedCoin = 'coin';
     throwedBottles = [];
+    bossBullets = [];
     collectedBottles = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 1, 1, 1, 1, 1, ];
 
 
@@ -37,6 +38,7 @@ class World {
         setInterval(() => {
             this.checkCollisionsCharacterWithChickens();
             this.checkCollisionsCharacterWithEndboss()
+            this.checkCollisionsCharacterWithBossWeapon();
             this.checkThrowObjects();
         }, 120);
         setInterval(() => {
@@ -47,10 +49,10 @@ class World {
         }, 10);
         setInterval(() => {
             this.checkCollisionsBottleWithEndboss();
-            this.setBossAnimation();
         }, 10);
-
-
+        setInterval(() => {
+            this.checkBossWeapon();
+        }, 1200);
     }
 
     checkThrowObjects(index) {
@@ -61,18 +63,16 @@ class World {
         }
     }
 
-
-    //for testing
-    /* checkThrowObjects() {
-         if (this.keyboard.ENTER) {
-             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-             this.throwedBottles.push(bottle);
-         }
-     }*/
+    checkBossWeapon() {
+        if (this.endboss.startAttacking && this.endboss.contactWithBoss && !this.endboss.bossHitted && !this.endboss.bossDead) {
+            let bullet = new BossWeapon(this.endboss.x + 50, this.endboss.y + 290);
+            this.bossBullets.push(bullet);
+        }
+    }
 
     checkCollisionsCharacterWithChickens() {
         this.level.chickens.forEach((chicken) => {
-            if (this.character.isColliding(chicken) && chicken.bottleHitsChicken == false && !this.character.isAboveGround()) {
+            if (this.character.isColliding(chicken) && !chicken.bottleHitsChicken && !this.character.isAboveGround()) {
                 this.character.hit(3);
                 this.healthBar.setPercentageHealth(this.character.energy);
             } else if (this.character.jumpsOnTop(chicken)) {
@@ -82,6 +82,21 @@ class World {
                 }, 3000);
             }
         });
+    }
+
+    checkCollisionsCharacterWithBossWeapon() {
+        this.bossBullets.forEach(weapon => {
+            if (this.character.isColliding(weapon) && !weapon.characterHitsWeapon && !this.character.isAboveGround()) {
+                this.character.hit(2);
+                this.healthBar.setPercentageHealth(this.character.energy);
+            } else if (this.character.jumpsOnTop(weapon)) {
+                weapon.characterHitsWeapon = true;
+                console.log('Hi')
+                setTimeout(() => {
+                    weapon.y = 500;
+                }, 3000);
+            }
+        })
     }
 
     checkCollisionsCharacterWithEndboss() {
@@ -115,19 +130,16 @@ class World {
                     bottle.bottleHitsEnemy = true;
                     endboss.bossHitted = true;
                     this.removeSplashedBottle()
-                    this.endboss.hit(10);
+                    this.endboss.hit(0.07);
                     this.bossBar.setPercentageHealth(this.endboss.energy);
-
                 } else if (this.endboss.energy == 0) {
                     bottle.bottleHitsEnemy = true;
                     endboss.bossDead = true;
-                    this.removeSplashedBottle()
+                    this.removeSplashedBottle();
                 }
             });
         });
     }
-
-
 
     checkCollisionsCharacterWithBottles() {
         this.level.collectableBottles.forEach((bottle, index) => {
@@ -173,12 +185,6 @@ class World {
             this.throwedBottles.splice(1, 0);
         }, 100);
     }
-    setBossAnimation() {
-        if (this.character.x >= 8500) {
-            this.endboss.startBossAnimation = true;
-        }
-    }
-
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -206,6 +212,7 @@ class World {
         this.addObjectsToMap(this.level.chickens);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwedBottles);
+        this.addObjectsToMap(this.bossBullets);
 
         this.ctx.translate(-this.camera_x, 0);
 

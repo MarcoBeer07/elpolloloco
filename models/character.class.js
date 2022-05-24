@@ -66,7 +66,7 @@ class Character extends MovableObject {
     world;
     walking_sound = new Audio('audio/running.mp3');
 
-    constructor() {
+    constructor(world) {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png')
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_IDLE);
@@ -74,6 +74,9 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.stopCharacter();
+        this.startCharacter();
+        this.world = world;
         this.applyGravity();
         this.animate();
         this.energy = 100;
@@ -84,11 +87,12 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.characterMovement = setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                // this.walking_sound.play();
+                console.log(this.x)
+                    // this.walking_sound.play();
                 this.otherDirection = false;
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
@@ -102,7 +106,7 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 100 / 60)
 
-        setInterval(() => {
+        this.characterAnimation = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
@@ -118,7 +122,6 @@ class Character extends MovableObject {
             }
         }, 10000 / 60)
     }
-
 }
 
 //this.playAnimation(this.IMAGES_LONG_IDLE)

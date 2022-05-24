@@ -80,4 +80,25 @@ class MovableObject extends DrawableObject {
     moveLeft() {
         this.x -= this.speed;
     }
+
+    clearDeadBoss() {
+        setInterval(() => {
+            this.height -= this.speed;
+            this.width -= this.speed;
+            setTimeout(() => {
+                this.y = 0;
+            }, 1200);
+        }, 5000 / 60);
+
+    }
+
+    stopCharacter() {
+        clearInterval(this.characterMovement);
+        clearInterval(this.characterAnimation);
+    }
+
+    startCharacter() {
+        this.characterMovement;
+        this.characterAnimation;
+    }
 }
