@@ -47,7 +47,8 @@ class Endboss extends MovableObject {
     bossDead = false;
     startAttacking = false;
     speed = 2000;
-
+    walking_sound = new Audio('audio/running.mp3');
+    bossfightSound = new Audio('audio/endboss.mp3');
 
 
     constructor(world) {
@@ -59,13 +60,13 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.world = world;
         this.animate();
+        this.bossfightSound.volume = 0.3;
         this.energy = 100;
         this.height = 400;
         this.width = 350;
         this.y = 60;
         this.x = 10000;
         this.speed = 10;
-
     }
 
     animate() {
@@ -88,9 +89,12 @@ class Endboss extends MovableObject {
             if (world.character.x > 9000 && !this.contactWithBoss) {
                 i = 0;
                 this.contactWithBoss = true;
+                this.world.gameSound.pause();
                 clearInterval(world.character.characterMovement);
                 setTimeout(() => {
                     this.world.character.animate();
+                    this.bossfightSound.play();
+                    this.bossfightSound.loop = true;
                 }, 10000);
             }
         }, 150)

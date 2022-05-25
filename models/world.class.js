@@ -15,6 +15,12 @@ class World {
     camera_x = 0;
     collectedBottle = 'bottle';
     collectedCoin = 'coin';
+    bottleSplash = new Audio('audio/bottle_splash.mp3');
+    chickenDead = new Audio('audio/chicken_dead.mp3');
+    coinCollected = new Audio('audio/coin_collected.wav');
+    bottleCollected = new Audio('audio/bottle_collected.mp3');
+    gameSound = new Audio('audio/game_music.mp3');
+
     throwedBottles = [];
     bossBullets = [];
     collectedBottles = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 1, 1, 1, 1, 1, ];
@@ -28,6 +34,13 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.gameSound.loop = true;
+        this.gameSound.play();
+        this.gameSound.volume = 0.2;
+        this.coinCollected.volume = 0.1;
+        this.bottleCollected.volume = 0.3;
+        this.chickenDead.volume = 0.6;
+        this.bottleSplash.volume = 0.4;
     }
 
     setWorld() {
@@ -76,6 +89,9 @@ class World {
                 this.character.hit(3);
                 this.healthBar.setPercentageHealth(this.character.energy);
             } else if (this.character.jumpsOnTop(chicken)) {
+                if (!chicken.bottleHitsChicken) {
+                    this.chickenDead.play();
+                }
                 chicken.bottleHitsChicken = true;
                 setTimeout(() => {
                     chicken.y = 500;
@@ -91,6 +107,7 @@ class World {
                 this.healthBar.setPercentageHealth(this.character.energy);
             } else if (this.character.jumpsOnTop(weapon)) {
                 weapon.characterHitsWeapon = true;
+                this.chickenDead.play();
                 console.log('Hi')
                 setTimeout(() => {
                     weapon.y = 500;
@@ -112,6 +129,8 @@ class World {
         this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
                 if (bottle.isColliding(chicken) && !chicken.bottleHitsChicken) {
+                    this.bottleSplash.play();
+                    this.chickenDead.play();
                     bottle.bottleHitsEnemy = true;
                     chicken.bottleHitsChicken = true;
                     this.removeSplashedBottle()
@@ -127,12 +146,14 @@ class World {
         this.level.endboss.forEach(endboss => {
             this.throwedBottles.forEach(bottle => {
                 if (bottle.isColliding(endboss)) {
+                    this.bottleSplash.play();
                     bottle.bottleHitsEnemy = true;
                     endboss.bossHitted = true;
                     this.removeSplashedBottle()
                     this.endboss.hit(0.07);
                     this.bossBar.setPercentageHealth(this.endboss.energy);
                 } else if (this.endboss.energy == 0) {
+                    this.bottleSplash.play();
                     bottle.bottleHitsEnemy = true;
                     endboss.bossDead = true;
                     this.removeSplashedBottle();
@@ -144,6 +165,7 @@ class World {
     checkCollisionsCharacterWithBottles() {
         this.level.collectableBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
+                this.bottleCollected.play();
                 this.level.collectableBottles.splice(index, 1);
                 this.collectedBottles.push(this.collectedBottle);
             }
@@ -155,6 +177,7 @@ class World {
             if (this.character.isColliding(coin) && this.coinBar.coins.length < 5) {
                 this.level.collectableCoins.splice(index, 1);
                 this.updateCoinbar();
+                this.coinCollected.play();
             } else if (this.coinBar.coins.length >= 5 && this.character.energy < 100) {
                 this.addHealthtoCharacter();
                 this.resetCoinbar();

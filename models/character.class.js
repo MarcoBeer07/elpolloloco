@@ -65,6 +65,8 @@ class Character extends MovableObject {
     ];
     world;
     walking_sound = new Audio('audio/running.mp3');
+    jumpSound = new Audio('audio/jump.mp3');
+    hurtSound = new Audio('audio/hurt.mp3');
 
     constructor(world) {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png')
@@ -79,6 +81,9 @@ class Character extends MovableObject {
         this.world = world;
         this.applyGravity();
         this.animate();
+        this.walking_sound.volume = 0.1;
+        this.jumpSound.volume = 0.5;
+        this.hurtSound.volume = 0.5;
         this.energy = 100;
         this.height = 240;
         this.width = 90;
@@ -91,16 +96,21 @@ class Character extends MovableObject {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                console.log(this.x)
-                    // this.walking_sound.play();
+                if (!this.isAboveGround()) {
+                    this.walking_sound.play();
+                }
                 this.otherDirection = false;
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-                //this.walking_sound.play();
+                if (!this.isAboveGround()) {
+                    this.walking_sound.play();
+                }
                 this.otherDirection = true;
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.jumpSound.play();
+
                 this.jump();
             }
             this.world.camera_x = -this.x + 100;
@@ -111,6 +121,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.hurtSound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
