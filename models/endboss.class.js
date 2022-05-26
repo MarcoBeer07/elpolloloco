@@ -71,6 +71,7 @@ class Endboss extends MovableObject {
 
     animate() {
         let i = 0;
+
         this.enbossAnimation = setInterval(() => {
             if (i < 30 && !this.bossHitted && !this.bossDead) {
                 this.endbossWalking();
@@ -86,11 +87,13 @@ class Endboss extends MovableObject {
                 this.endbossDead();
             };
             i++;
-            if (world.character.x > 9000 && !this.contactWithBoss) {
-                i = 0;
-                this.contactWithBoss = true;
+            if (world.character.x < 9000) {
+                clearInterval(this.endbossAnimation);
+                this.world.gameSound.pause();
+            } else if (world.character.x > 9000) {
                 this.world.gameSound.pause();
                 clearInterval(world.character.characterMovement);
+                this.animate();
                 setTimeout(() => {
                     this.world.character.animate();
                     this.bossfightSound.play();
@@ -102,6 +105,7 @@ class Endboss extends MovableObject {
 
     endbossWalking() {
         this.playAnimation(this.IMAGES_WALKING);
+        //this.walking_sound.play();
         this.moveLeft();
     }
 

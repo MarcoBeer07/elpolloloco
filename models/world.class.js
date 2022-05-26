@@ -20,6 +20,8 @@ class World {
     coinCollected = new Audio('audio/coin_collected.wav');
     bottleCollected = new Audio('audio/bottle_collected.mp3');
     gameSound = new Audio('audio/game_music.mp3');
+    bottleThrowSound = new Audio('audio/throw.mp3');
+
 
     throwedBottles = [];
     bossBullets = [];
@@ -41,6 +43,8 @@ class World {
         this.bottleCollected.volume = 0.3;
         this.chickenDead.volume = 0.6;
         this.bottleSplash.volume = 0.4;
+        this.bottleThrowSound.volume = 0.4;
+
     }
 
     setWorld() {
@@ -71,6 +75,7 @@ class World {
     checkThrowObjects(index) {
         if (this.keyboard.ENTER && this.collectedBottles.length > 0) {
             let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+            this.bottleThrowSound.play();
             this.throwedBottles.push(bottle);
             this.collectedBottles.splice(index, 1)
         }

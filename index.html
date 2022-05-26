@@ -40,11 +40,22 @@
     </div>
     <h1>EL POLLO LOCO</h1>
 
-    <canvas id="canvas" width="720" height="480"></canvas>
-    <panel class="mobile-buttons">
-        <button>links</button>
-        <button>rechts</button>
-    </panel>
+    <div class="canvas-wrap">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div class="mobile-buttons">
+            <div class="mobile-move-buttons">
+                <img class="button-left" src="./img/mobile/arrow-left.png" id="btnLeft"></img>
+                <img class="button-right" src="./img/mobile/arrow-right.png" id="btnRight"></img>
+
+            </div>
+            <div class="mobile-jump-and-throw-button">
+                <img class="button-jump" src="./img/mobile/arrow-up.png" id="btnJump"></img>
+                <img class="button-throw" src="./img/mobile/bottle.png" id="btnThrow"></img>
+            </div>
+        </div>
+
+    </div>
+
 
 </body>
 
