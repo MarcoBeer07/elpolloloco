@@ -91,14 +91,4 @@ class MovableObject extends DrawableObject {
         }, 5000 / 60);
 
     }
-
-    stopCharacter() {
-        clearInterval(this.characterMovement);
-        clearInterval(this.characterAnimation);
-    }
-
-    startCharacter() {
-        this.characterMovement;
-        this.characterAnimation;
-    }
 }

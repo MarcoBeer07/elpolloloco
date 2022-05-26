@@ -12,6 +12,7 @@ body {
 
 h1 {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding-top: 0px;
 }
 
 canvas {
@@ -24,6 +25,7 @@ canvas {
     position: relative;
     width: 720px;
     height: 480px;
+    margin-bottom: 100px;
 }
 
 .mobile-buttons {

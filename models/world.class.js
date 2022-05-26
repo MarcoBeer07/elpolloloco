@@ -4,8 +4,9 @@ class World {
     bottleBar = new BottleBar();
     coinBar = new CoinBar();
     chicken = new Chicken();
+    bigChicken = new BigChicken();
     endboss = new Endboss(this);
-    character = new Character(this);
+    character = new Character();
     bossWeapon = new BossWeapon();
     bossBar = new EndbossBar();
     level = level1;
@@ -25,7 +26,7 @@ class World {
 
     throwedBottles = [];
     bossBullets = [];
-    collectedBottles = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, , 1, 1, 1, 1, 1, 1, 1, 1, ];
+    collectedBottles = [];
 
 
 
@@ -36,11 +37,11 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.gameSound.loop = true;
+        //this.gameSound.loop = true;
         this.gameSound.play();
         this.gameSound.volume = 0.2;
         this.coinCollected.volume = 0.1;
-        this.bottleCollected.volume = 0.3;
+        this.bottleCollected.volume = 0.2;
         this.chickenDead.volume = 0.6;
         this.bottleSplash.volume = 0.4;
         this.bottleThrowSound.volume = 0.4;
@@ -54,6 +55,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisionsCharacterWithChickens();
+            this.checkCollisionsCharacterWithBigChickens();
             this.checkCollisionsCharacterWithEndboss()
             this.checkCollisionsCharacterWithBossWeapon();
             this.checkThrowObjects();
@@ -62,7 +64,7 @@ class World {
             this.checkCollisionsCharacterWithBottles();
             this.checkCollisionsCharacterWithCoins();
             this.checkCollisionsBottleWithChickens();
-
+            this.checkCollisionsBottleWithBigChickens();
         }, 10);
         setInterval(() => {
             this.checkCollisionsBottleWithEndboss();
@@ -101,6 +103,15 @@ class World {
                 setTimeout(() => {
                     chicken.y = 500;
                 }, 3000);
+            }
+        });
+    }
+
+    checkCollisionsCharacterWithBigChickens() {
+        this.level.bigChickens.forEach((bigChicken) => {
+            if (this.character.isColliding(bigChicken) && !bigChicken.bigChickenDead) {
+                this.character.hit(3);
+                this.healthBar.setPercentageHealth(this.character.energy);
             }
         });
     }
@@ -147,6 +158,23 @@ class World {
         });
     }
 
+    checkCollisionsBottleWithBigChickens() {
+        this.level.bigChickens.forEach(bigChicken => {
+            this.throwedBottles.forEach(bottle => {
+                if (bottle.isColliding(bigChicken)) {
+                    bigChicken.hit(0.6);
+                    this.bottleSplash.play();
+                    this.chickenDead.play();
+                    bottle.bottleHitsEnemy = true;
+                    bigChicken.bottleHitsBigChicken = true;
+                    this.removeSplashedBottle()
+                } else if (bigChicken.isDead()) {
+                    bigChicken.bigChickenDead = true;
+                }
+            });
+        });
+    }
+
     checkCollisionsBottleWithEndboss() {
         this.level.endboss.forEach(endboss => {
             this.throwedBottles.forEach(bottle => {
@@ -186,6 +214,9 @@ class World {
             } else if (this.coinBar.coins.length >= 5 && this.character.energy < 100) {
                 this.addHealthtoCharacter();
                 this.resetCoinbar();
+            } else if (this.coinBar.coins.length >= 5 && this.character.energy >= 100) {
+                this.addBottles();
+                this.resetCoinbar();
             }
         });
     }
@@ -200,6 +231,11 @@ class World {
     addHealthtoCharacter() {
         this.character.energy = 100;
         this.healthBar.setPercentageHealth(this.character.energy);
+    }
+
+    addBottles() {
+        this.collectedBottles.push(this.collectedBottle);
+        this.collectedBottles.push(this.collectedBottle);
     }
 
     resetCoinbar() {
@@ -228,7 +264,7 @@ class World {
         this.addToMap(this.bottleBar);
         this.addToMap(this.coinBar);
         this.drawBottleCounter();
-        if (this.character.x >= 8500) {
+        if (this.character.x >= 9350) {
             this.addToMap(this.bossBar);
         }
         // Space for fixed objects
@@ -238,6 +274,7 @@ class World {
         this.addObjectsToMap(this.level.collectableBottles);
         this.addObjectsToMap(this.level.collectableCoins);
         this.addObjectsToMap(this.level.chickens);
+        this.addObjectsToMap(this.level.bigChickens);
         this.addObjectsToMap(this.level.endboss);
         this.addObjectsToMap(this.throwedBottles);
         this.addObjectsToMap(this.bossBullets);

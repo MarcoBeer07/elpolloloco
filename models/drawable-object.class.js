@@ -53,7 +53,7 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof CollectableBottles || this instanceof CollectableCoins || this instanceof BossWeapon) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof BigChicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof CollectableBottles || this instanceof CollectableCoins || this instanceof BossWeapon) {
             ctx.beginPath();
             ctx.lineWidth = "0";
             ctx.strokeStyle = "transparent";

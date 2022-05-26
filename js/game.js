@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 intro_sound = new Audio('audio/running.mp3');
 
+//const elems = document.querySelectorAll("video, audio");
 
 
 function init() {
@@ -11,6 +12,15 @@ function init() {
     world = new World(canvas, keyboard);
     mobileButtonPressEvents();
 }
+
+/*function muteAudio() {
+    for (const el of elems) {
+        el.muted = true
+        el.pause()
+    }
+}*/
+
+
 
 
 function mobileButtonPressEvents() {

@@ -16,6 +16,12 @@ const level1 = new Level(
     ],
 
     [
+        new BigChicken(2000),
+        new BigChicken(4000),
+        new BigChicken(7000),
+    ],
+
+    [
         new Endboss(),
     ],
 
@@ -39,7 +45,6 @@ const level1 = new Level(
     ],
 
     [
-
         new BackgroundObject('img/5.Fondo/Capas/5.cielo_1920-1080px.png', -720),
         new BackgroundObject('img/5.Fondo/Capas/3.Fondo3/2.png', -720),
         new BackgroundObject('img/5.Fondo/Capas/2.Fondo2/2.png', -720),
@@ -132,23 +137,35 @@ const level1 = new Level(
     ],
 
     [
-        new CollectableBottles(500),
-        new CollectableBottles(850),
-        new CollectableBottles(1100),
-        new CollectableBottles(1500),
-        new CollectableBottles(1880),
-        new CollectableBottles(2200),
-        new CollectableBottles(2800),
-        new CollectableBottles(2950),
-        new CollectableBottles(3500),
-        new CollectableBottles(3800),
-        new CollectableBottles(4500),
-        new CollectableBottles(5000),
-        new CollectableBottles(5600),
-        new CollectableBottles(5900),
-        new CollectableBottles(6500),
-        new CollectableBottles(7000),
-        new CollectableBottles(8000),
+        new CollectableBottles(500, 0),
+        new CollectableBottles(700, 0),
+        new CollectableBottles(850, 1),
+        new CollectableBottles(1100, 0),
+        new CollectableBottles(1350, 1),
+        new CollectableBottles(1500, 1),
+        new CollectableBottles(1880, 0),
+        new CollectableBottles(2200, 1),
+        new CollectableBottles(2800, 0),
+        new CollectableBottles(2950, 1),
+        new CollectableBottles(3500, 1),
+        new CollectableBottles(3800, 0),
+        new CollectableBottles(4500, 1),
+        new CollectableBottles(5000, 0),
+        new CollectableBottles(5600, 1),
+        new CollectableBottles(5900, 1),
+        new CollectableBottles(6500, 0),
+        new CollectableBottles(7000, 1),
+        new CollectableBottles(8000, 0),
+        new CollectableBottles(8100, 1),
+        new CollectableBottles(8200, 0),
+        new CollectableBottles(8300, 1),
+        new CollectableBottles(8400, 0),
+        new CollectableBottles(8500, 1),
+        new CollectableBottles(8600, 1),
+        new CollectableBottles(8700, 1),
+        new CollectableBottles(8800, 0),
+        new CollectableBottles(8900, 1),
+        new CollectableBottles(8900, 0),
     ],
 
     [
