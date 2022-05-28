@@ -71,7 +71,7 @@ class Endboss extends MovableObject {
         this.winnedBossFight();
         this.world = world;
         this.bossfightSound.volume = 0.2;
-        this.endbossWalkingSound.volume = 0.15;
+        this.endbossWalkingSound.volume = 0.1;
         this.winSound.volume = 0.4;
         this.winSound.loop = true;
         this.energy = 100;
@@ -82,6 +82,9 @@ class Endboss extends MovableObject {
         this.speed = 10;
     }
 
+    /**
+     * Sets the Invertal for the startanimation of the Endboss
+     */
     endbossStartAnimation() {
         let i = 0;
         this.enbossAnimation = setInterval(() => {
@@ -103,6 +106,9 @@ class Endboss extends MovableObject {
         }, 150)
     }
 
+    /**
+     * Checks if the endbosses health is zero, if yes, it plays the dead animation and dead sound.  
+     */
     endbossDeadAnimation() {
         this.endbossDefeated = setInterval(() => {
             if (this.bossDead && !this.victory) {
@@ -115,6 +121,9 @@ class Endboss extends MovableObject {
         }, 150)
     }
 
+    /**
+     * Checks also if the bossfight was winned by the character, if yes, it stops the bossfight sound. 
+     */
     winnedBossFight() {
         this.winnedFight = setInterval(() => {
             if (this.victory) {
@@ -126,12 +135,18 @@ class Endboss extends MovableObject {
         }, 150)
     }
 
+    /**
+     *  Plays the win sound and stops the character from moving.
+     */
     winGame() {
         this.winSound.play();
         clearInterval(world.character.characterMovement);
         document.getElementById('win-screen').classList.remove('d-none');
     }
 
+    /**
+     *  Checks if the endboss is hitted with an bottle, if yes, it plays the hurt animation and hurt sound
+     */
     endbossHurtAnimation() {
         setInterval(() => {
             if (this.bossHitted && !this.bossDead) {
@@ -141,6 +156,9 @@ class Endboss extends MovableObject {
         }, 150)
     }
 
+    /**
+     *  Checks if the character is near the boss, if yes, it stops the character movement.
+     */
     checkForBossFight() {
         setInterval(() => {
             if (world.character.x < 9380) {
@@ -152,10 +170,13 @@ class Endboss extends MovableObject {
         }, 150);
     }
 
+    /**
+     *  Checks if the endboss is started to attacking, if yes, it let the character throw bottles again and plays the bossfight music
+     */
     startBossfight() {
         this.bossfightMusic = setInterval(() => {
             if (this.startAttacking) {
-                this.startBossfightMusic();
+                this.bossfightSound.play();
                 this.bottleThrow = true;
                 clearInterval(this.bossfightMusic);
             } else if (this.victory) {
@@ -164,11 +185,9 @@ class Endboss extends MovableObject {
         }, 150);
     }
 
-    startBossfightMusic() {
-        this.bossfightSound.play();
-        clearInterval(this.bossfightMusic);
-    }
-
+    /**
+     *  Plays the endboss dead sound
+     */
     endBossDeadSound() {
         this.endbossDeadSound.play();
         setTimeout(() => {
@@ -176,17 +195,26 @@ class Endboss extends MovableObject {
         }, 4000);
     }
 
+    /**
+     *  Plays the walking animation of the endboss and move him to the left
+     */
     endbossWalking() {
         this.playAnimation(this.IMAGES_WALKING);
         this.endbossWalkingSound.play();
         this.moveLeft();
     }
 
+    /**
+     *  Plays the attack animation of the endboss
+     */
     enbossAttacking() {
         this.playAnimation(this.IMAGES_ATTACK);
         this.startAttacking = true;
     }
 
+    /**
+     *  checks if the endboss is hitted, if yes, it plays the hitted animation
+     */
     endbossHitted() {
         this.playAnimation(this.IMAGES_DAMAGE);
         setTimeout(() => {
@@ -194,6 +222,9 @@ class Endboss extends MovableObject {
         }, 1500);
     }
 
+    /**
+     *  Plays the death animation of the endboss and clears him out of the canvas
+     */
     endbossDead() {
         this.playAnimation(this.IMAGES_DEAD);
         this.clearDeadBoss();

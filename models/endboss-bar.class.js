@@ -18,15 +18,20 @@ class EndbossBar extends DrawableObject {
         this.height = 78;
         this.width = 280;
         this.setPercentageEndboss(100);
-
     }
 
+    /**
+     * Sets the percentage of the bar 
+     */
     setPercentageEndboss(percentage) {
         this.percentage = percentage; // => 0 ... 5 
         let path = this.IMAGES[this.resolveImageIndexEndboss()];
         this.img = this.imageCache[path];
     }
 
+    /**
+     * Sets the right image depends on the size of the percentages 
+     */
     resolveImageIndexEndboss() {
         if (this.percentage == 100) {
             return 5;
@@ -42,5 +47,4 @@ class EndbossBar extends DrawableObject {
             return 0;
         }
     }
-
 }

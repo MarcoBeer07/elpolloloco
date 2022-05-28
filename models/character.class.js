@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 8;
+    speed = 2.2;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -92,22 +92,17 @@ class Character extends MovableObject {
         this.y = 185;
     }
 
+    /**
+     * Sets the Invertal for the different anmimations of the character movements
+     */
     characterMovements() {
         this.characterMovement = setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                if (!this.isAboveGround()) {
-                    this.walking_sound.play();
-                }
-                this.otherDirection = false;
+                this.moveCharacterRight();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-                if (!this.isAboveGround()) {
-                    this.walking_sound.play();
-                }
-                this.otherDirection = true;
+                this.moveCharacterLeft();
             }
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jumpSound.play();
@@ -117,6 +112,9 @@ class Character extends MovableObject {
         }, 100 / 60)
     }
 
+    /**
+     * Sets the Invertal for the different anmimations of the character animations
+     */
     characterAnimation() {
         this.characterAnimation = setInterval(() => {
             if (this.isDead()) {
@@ -124,7 +122,7 @@ class Character extends MovableObject {
                 this.gameOver()
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-                //this.hurtSound.play();
+                this.hurtSound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -137,6 +135,31 @@ class Character extends MovableObject {
         }, 10000 / 60)
     }
 
+    /**
+     * Moves the character to the right if key D is klicked
+     */
+    moveCharacterRight() {
+        this.moveRight();
+        if (!this.isAboveGround()) {
+            this.walking_sound.play();
+        }
+        this.otherDirection = false;
+    }
+
+    /**
+     * Moves the character to the left if key A is klicked
+     */
+    moveCharacterLeft() {
+        this.moveLeft();
+        if (!this.isAboveGround()) {
+            this.walking_sound.play();
+        }
+        this.otherDirection = true;
+    }
+
+    /**
+     * Stops the charakter movement if the boss is near then after 9,3 seconds start it again 
+     */
     stopCharacterAndWaitForEndboss() {
         this.stopCharacter = setInterval(() => {
             if (this.x > 9380) {
@@ -148,13 +171,18 @@ class Character extends MovableObject {
                 clearInterval(this.stopCharacter);
             }
         }, 100 / 60);
-
     }
 
+    /**
+     * Stops the charakter movement if the boss is near then after 9,3 seconds start it again 
+     */
     startCharacter() {
         this.characterMovements();
     }
 
+    /**
+     * Shows the game over screen and plays game over sound when character health is 0 
+     */
     gameOver() {
         clearInterval(this.characterMovement)
         gameSound.pause();
@@ -162,5 +190,3 @@ class Character extends MovableObject {
         document.getElementById('game-over-screen').classList.remove('d-none');
     }
 }
-
-//this.playAnimation(this.IMAGES_LONG_IDLE)

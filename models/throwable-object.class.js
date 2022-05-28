@@ -30,6 +30,9 @@ class ThrowableObject extends MovableObject {
         this.width = 60;
     }
 
+    /**
+     *  Makes the object throwable with a specific speed 
+     */
     throw () {
         this.speedY = 18;
         this.applyGravity();
@@ -38,6 +41,9 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
+    /**
+     * Sets the Invertal for the different anmimations of the bottles
+     */
     bottleAnimation() {
         setInterval(() => {
             if (this.bottleHitsEnemy) {
@@ -52,12 +58,17 @@ class ThrowableObject extends MovableObject {
         this.bottleHitsEnemy = false;
     };
 
+    /**
+     * Stops the bottle when colliding an object and plays the splash animation
+     */
     stopBottleAndSplash() {
         this.playAnimation(this.IMAGES_SALSA_SPLASH);
     }
 
+    /**
+     * Plays the spin animation of the bottle 
+     */
     spinBottle() {
         this.playAnimation(this.IMAGES_SALSA);
     }
-
 }

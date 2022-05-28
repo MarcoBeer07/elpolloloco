@@ -22,14 +22,15 @@ class DrawableObject {
             img.src = path;
             this.imageCache[path] = img;
         })
-
     }
 
+    /**
+     * This function sets the 
+     */
     setPercentageHealth(percentage) {
         this.percentage = percentage; // => 0 ... 5 
         let path = this.IMAGES[this.resolveImageIndexHealth()];
         this.img = this.imageCache[path];
-
     }
 
     resolveImageIndexHealth() {
@@ -61,6 +62,4 @@ class DrawableObject {
             ctx.stroke();
         }
     }
-
-
 }

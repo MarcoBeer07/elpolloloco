@@ -41,18 +41,22 @@ class World {
         this.chickenDead.volume = 0.6;
         this.bottleSplash.volume = 0.3;
         this.bottleThrowSound.volume = 0.4;
-
     }
 
     setWorld() {
         this.character.world = this;
     }
 
+    /**
+     * Sets the game back to the startscreen
+     */
     restartGame() {
         location.reload();
     }
 
-
+    /**
+     * Starts the different collisiion detections below with different intervals
+     */
     run() {
         setInterval(() => {
             this.checkCollisionsCharacterWithChickens();
@@ -75,6 +79,9 @@ class World {
         }, 1200);
     }
 
+    /**
+     * Checks if the key enter is pushed, if yes, throws bottle and plays the bottle throw sound.
+     */
     checkThrowObjects(index) {
         this.level.endboss.forEach(endboss => {
             if (this.keyboard.ENTER && this.collectedBottles.length > 0 && endboss.bottleThrow) {
@@ -84,9 +91,11 @@ class World {
                 this.collectedBottles.splice(index, 1)
             }
         });
-
     }
 
+    /**
+     * Checks if the endboss is starting to attacking, if yes, it starts the boss weapon
+     */
     checkBossWeapon() {
         this.level.endboss.forEach(endboss => {
             if (endboss.startAttacking && !endboss.bossDead) {
@@ -96,6 +105,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding a chicken 
+     */
     checkCollisionsCharacterWithChickens() {
         this.level.chickens.forEach((chicken) => {
             if (this.character.isColliding(chicken) && !chicken.bottleHitsChicken && !this.character.isAboveGround()) {
@@ -107,12 +119,15 @@ class World {
                 }
                 chicken.bottleHitsChicken = true;
                 setTimeout(() => {
-                    chicken.y = 500;
+                    this.level.chickens.splice(0, 1);
                 }, 3000);
             }
         });
     }
 
+    /**
+     * Checks if the character is colliding a big chicken 
+     */
     checkCollisionsCharacterWithBigChickens() {
         this.level.bigChickens.forEach((bigChicken) => {
             if (this.character.isColliding(bigChicken) && !bigChicken.bigChickenDead) {
@@ -122,6 +137,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding a boss weapon/bullet
+     */
     checkCollisionsCharacterWithBossWeapon() {
         this.bossBullets.forEach(weapon => {
             if (this.character.isColliding(weapon) && !weapon.characterHitsWeapon && !this.character.isAboveGround()) {
@@ -137,6 +155,9 @@ class World {
         })
     }
 
+    /**
+     * Checks if the character is colliding the endboss 
+     */
     checkCollisionsCharacterWithEndboss() {
         this.level.endboss.forEach(endboss => {
             if (this.character.isColliding(endboss)) {
@@ -146,6 +167,9 @@ class World {
         })
     }
 
+    /**
+     * Checks if a bottle is colliding a chicken 
+     */
     checkCollisionsBottleWithChickens() {
         this.level.chickens.forEach(chicken => {
             this.throwedBottles.forEach(bottle => {
@@ -163,6 +187,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if a bottle is colliding a  big chicken 
+     */
     checkCollisionsBottleWithBigChickens() {
         this.level.bigChickens.forEach(bigChicken => {
             this.throwedBottles.forEach(bottle => {
@@ -180,6 +207,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if a bottle is colliding the endboss
+     */
     checkCollisionsBottleWithEndboss() {
         this.level.endboss.forEach(endboss => {
             this.throwedBottles.forEach(bottle => {
@@ -199,6 +229,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding a collectable bottle
+     */
     checkCollisionsCharacterWithBottles() {
         this.level.collectableBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
@@ -209,6 +242,9 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character is colliding a collectable coin
+     */
     checkCollisionsCharacterWithCoins() {
         this.level.collectableCoins.forEach((coin, index) => {
             if (this.character.isColliding(coin) && this.coinBar.coins.length < 5) {
@@ -225,6 +261,9 @@ class World {
         });
     }
 
+    /**
+     * Updates the coinbar depends to the collected coins
+     */
     updateCoinbar() {
         this.level.collectableCoins.splice(1, 0);
         this.coinBar.percentage += 20;
@@ -232,28 +271,43 @@ class World {
         this.coinBar.coins.push(this.collectedCoin);
     }
 
+    /**
+     * Added health to the character if some chosen event is happen
+     */
     addHealthtoCharacter() {
         this.character.energy = 100;
         this.healthBar.setPercentageHealth(this.character.energy);
     }
 
+    /**
+     * Added 2 bottles to the bottle counter if some chosen event is happen 
+     */
     addBottles() {
         this.collectedBottles.push(this.collectedBottle);
         this.collectedBottles.push(this.collectedBottle);
     }
 
+    /**
+     * Resets the coinbar if its bigger than 5 coins
+     */
     resetCoinbar() {
         this.coinBar.percentage -= 100;
         this.coinBar.setPercentageCoin(this.coinBar.percentage);
         this.coinBar.coins.splice(0);
     }
 
+    /**
+     * Removes the bottle if its colliding an object  
+     */
     removeSplashedBottle() {
         setTimeout(() => {
             this.throwedBottles.splice(1, 0);
         }, 100);
     }
 
+    /**
+     * Draws the different objects to the canvas 
+     */
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -292,18 +346,27 @@ class World {
         });
     }
 
+    /**
+     * Draws the bottle cunter to the canvas 
+     */
     drawBottleCounter() {
         this.ctx.font = '20px serif';
         this.ctx.textAlign = 'center';
         this.ctx.fillText(this.collectedBottles.length, 44.5, 158);
     }
 
+    /**
+     * Is used to set the objects in the draw function
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o)
         })
     }
 
+    /**
+     * Is used to set fixed camera objects in the draw function
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
@@ -314,6 +377,10 @@ class World {
             this.flipImageBack(mo)
         }
     }
+
+    /**
+     * Flips the image in 180 degrees
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -321,9 +388,11 @@ class World {
         mo.x = mo.x * -1;
     }
 
+    /**
+     * Flips the image back in 180 degrees
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
 }

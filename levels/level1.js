@@ -28,7 +28,6 @@ function startLevel() {
             new Endboss(),
         ],
 
-
         [
             new Cloud(500),
             new Cloud(1200),

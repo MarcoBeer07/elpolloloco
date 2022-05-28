@@ -22,6 +22,9 @@ class BossWeapon extends MovableObject {
 
     }
 
+    /**
+     * Sets the Invertal for the different anmimations of the weapon from the endboss
+     */
     weaponAnimation() {
         setInterval(() => {
             if (this.characterHitsWeapon) {

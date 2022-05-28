@@ -8,12 +8,4 @@ class BottleBar extends DrawableObject {
         this.height = 220;
         this.width = 250;
     }
-
-
-
-
-
-
-
-
 }

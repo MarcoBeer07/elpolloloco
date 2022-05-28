@@ -14,7 +14,9 @@ class CollectableCoins extends MovableObject {
         this.animateCoins();
     }
 
-
+    /**
+     * Sets the Invertal for the different anmimations of the coins
+     */
     animateCoins() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_COINS);

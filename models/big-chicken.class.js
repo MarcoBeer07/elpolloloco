@@ -48,7 +48,7 @@ class BigChicken extends MovableObject {
         this.loadImages(this.IMAGES_DAMAGE);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACK);
-        this.animate();
+        this.animateBigChicken();
         this.energy = 60;
         this.height = 180;
         this.width = 130;
@@ -57,7 +57,10 @@ class BigChicken extends MovableObject {
         this.speed = 2;
     }
 
-    animate() {
+    /**
+     * Sets the Invertal for the different anmimations of the big chicken
+     */
+    animateBigChicken() {
         setInterval(() => {
             if (this.bigChickenDead) {
                 this.playAnimation(this.IMAGES_DEAD);
@@ -72,6 +75,9 @@ class BigChicken extends MovableObject {
         }, 100);
     }
 
+    /**
+     * Kicks the big chicken out of the screen if its dead
+     */
     clearDeadBigChicken() {
         setInterval(() => {
             this.height -= this.speed;
@@ -80,9 +86,5 @@ class BigChicken extends MovableObject {
                 this.y = -500;
             }, 1200);
         }, 5000 / 60);
-
     }
-
-
-
 }

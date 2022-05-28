@@ -9,6 +9,9 @@ class Cloud extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Sets the Invertal for the different anmimations of clouds
+     */
     animate() {
         setInterval(() => {
             this.x -= 0.2;

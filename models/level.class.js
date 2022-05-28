@@ -9,7 +9,6 @@ class Level {
 
     level_end_x = 11000;
 
-
     constructor(chickens, bigChickens, endboss, clouds, backgroundObjects, collectableBottles, collectableCoins) {
         this.chickens = chickens;
         this.bigChickens = bigChickens;
