@@ -16,12 +16,11 @@ class World {
     camera_x = 0;
     collectedBottle = 'bottle';
     collectedCoin = 'coin';
-    bottleSplash = new Audio('audio/bottle_splash.mp3');
-    chickenDead = new Audio('audio/chicken_dead.mp3');
-    coinCollected = new Audio('audio/coin_collected.wav');
-    bottleCollected = new Audio('audio/bottle_collected.mp3');
-    gameSound = new Audio('audio/game_music.mp3');
-    bottleThrowSound = new Audio('audio/throw.mp3');
+    bottleSplash = new Audio('./audio/bottle_splash.mp3');
+    chickenDead = new Audio('./audio/chicken_dead.mp3');
+    coinCollected = new Audio('./audio/coin_collected.wav');
+    bottleCollected = new Audio('./audio/bottle_collected.mp3');
+    bottleThrowSound = new Audio('./audio/throw.mp3');
 
 
     throwedBottles = [];
@@ -37,13 +36,10 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        //this.gameSound.loop = true;
-        this.gameSound.play();
-        this.gameSound.volume = 0.2;
         this.coinCollected.volume = 0.1;
         this.bottleCollected.volume = 0.2;
         this.chickenDead.volume = 0.6;
-        this.bottleSplash.volume = 0.4;
+        this.bottleSplash.volume = 0.3;
         this.bottleThrowSound.volume = 0.4;
 
     }
@@ -51,6 +47,11 @@ class World {
     setWorld() {
         this.character.world = this;
     }
+
+    restartGame() {
+        location.reload();
+    }
+
 
     run() {
         setInterval(() => {
@@ -75,19 +76,24 @@ class World {
     }
 
     checkThrowObjects(index) {
-        if (this.keyboard.ENTER && this.collectedBottles.length > 0) {
-            let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
-            this.bottleThrowSound.play();
-            this.throwedBottles.push(bottle);
-            this.collectedBottles.splice(index, 1)
-        }
+        this.level.endboss.forEach(endboss => {
+            if (this.keyboard.ENTER && this.collectedBottles.length > 0 && endboss.bottleThrow) {
+                let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
+                this.bottleThrowSound.play();
+                this.throwedBottles.push(bottle);
+                this.collectedBottles.splice(index, 1)
+            }
+        });
+
     }
 
     checkBossWeapon() {
-        if (this.endboss.startAttacking && this.endboss.contactWithBoss && !this.endboss.bossHitted && !this.endboss.bossDead) {
-            let bullet = new BossWeapon(this.endboss.x + 50, this.endboss.y + 290);
-            this.bossBullets.push(bullet);
-        }
+        this.level.endboss.forEach(endboss => {
+            if (endboss.startAttacking && !endboss.bossDead) {
+                let bullet = new BossWeapon(this.endboss.x + 50, this.endboss.y + 290);
+                this.bossBullets.push(bullet);
+            }
+        });
     }
 
     checkCollisionsCharacterWithChickens() {
@@ -124,7 +130,6 @@ class World {
             } else if (this.character.jumpsOnTop(weapon)) {
                 weapon.characterHitsWeapon = true;
                 this.chickenDead.play();
-                console.log('Hi')
                 setTimeout(() => {
                     weapon.y = 500;
                 }, 3000);
@@ -186,7 +191,6 @@ class World {
                     this.endboss.hit(0.07);
                     this.bossBar.setPercentageHealth(this.endboss.energy);
                 } else if (this.endboss.energy == 0) {
-                    this.bottleSplash.play();
                     bottle.bottleHitsEnemy = true;
                     endboss.bossDead = true;
                     this.removeSplashedBottle();
@@ -264,7 +268,7 @@ class World {
         this.addToMap(this.bottleBar);
         this.addToMap(this.coinBar);
         this.drawBottleCounter();
-        if (this.character.x >= 9350) {
+        if (this.endboss.startAttacking) {
             this.addToMap(this.bossBar);
         }
         // Space for fixed objects

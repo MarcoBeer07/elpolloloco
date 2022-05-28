@@ -1,25 +1,52 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-intro_sound = new Audio('audio/running.mp3');
+let introSound = new Audio('./audio/intro_music.mp3');
+let gameSound = new Audio('./audio/game_music.mp3');
 
-//const elems = document.querySelectorAll("video, audio");
+introSound.loop = true;
+introSound.volume = 0.2;
+gameSound.loop = true;
+gameSound.volume = 0.2;
 
 
-function init() {
-    //document.getElementById('startscreen').classList.add('d-none');
+function startScreen() {
+    introSound.pause()
+}
+
+function startGame() {
+    canvas = document.getElementById('canvas');
+    document.getElementById('menu-buttons').classList.remove('d-none');
+    document.getElementById('startscreen').classList.add('d-none');
+    document.getElementById('mute-button-startscreen').classList.add('d-none');
+    document.getElementById('start-button').classList.add('d-none');
+    introSound.pause();
+    gameSound.play();
+    startLevel();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     mobileButtonPressEvents();
 }
 
-/*function muteAudio() {
-    for (const el of elems) {
-        el.muted = true
-        el.pause()
+function muteMusicStartScreen() {
+    if (introSound.paused == false) {
+        document.getElementById('mute-button-startscreen').innerHTML = `Music on`
+        introSound.pause();
+    } else if (introSound.paused == true) {
+        document.getElementById('mute-button-startscreen').innerHTML = `Music off`
+        introSound.play();
     }
-}*/
+}
 
+function muteMusicGame() {
+    if (gameSound.paused == false) {
+        document.getElementById('mute-button-game').innerHTML = `Music on`
+        gameSound.pause();
+    } else if (gameSound.paused == true) {
+        document.getElementById('mute-button-game').innerHTML = `Music off`
+        gameSound.play();
+    }
+}
 
 
 
@@ -83,7 +110,7 @@ window.addEventListener("keydown", (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = true;
     }
-    if (e.keyCode == 81) {
+    if (e.keyCode == 81 || e.keyCode == 13) {
         keyboard.ENTER = true;
     }
 });
@@ -104,7 +131,7 @@ window.addEventListener("keyup", (e) => {
     if (e.keyCode == 32) {
         keyboard.SPACE = false;
     }
-    if (e.keyCode == 81) {
+    if (e.keyCode == 81 || e.keyCode == 13) {
         keyboard.ENTER = false;
     }
 });

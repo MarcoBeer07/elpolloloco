@@ -36,10 +36,71 @@ canvas {
     display: none;
 }
 
-.startscreen {
-    position: relative;
+.game-over-screen {
+    z-index: 1;
     position: absolute;
-    top: 150px;
+    top: 0px;
+    width: 720px;
+    height: 480px;
+}
+
+.game-over-screen img {
+    width: 720px;
+    height: 480px;
+}
+
+.game-over-screen button {
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 30px;
+    background-color: rgb(255, 255, 0);
+    position: absolute;
+    left: 200px;
+    right: 200px;
+    bottom: 0;
+    top: 0;
+    height: 50px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.win-screen {
+    z-index: 0;
+    position: absolute;
+    top: 0px;
+    width: 720px;
+    height: 480px;
+}
+
+.win-screen img {
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
+
+.win-screen button {
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-size: 30px;
+    background-color: rgb(255, 255, 0);
+    position: absolute;
+    left: 200px;
+    right: 200px;
+    bottom: 0;
+    top: 0;
+    height: 50px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.startscreen {
+    z-index: 1;
+    position: absolute;
+    width: 720px;
+    height: 480px;
+    margin-bottom: 20px;
 }
 
 .startscreen img {
@@ -51,20 +112,64 @@ canvas {
     cursor: pointer;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bolder;
-    font-size: 50px;
-    background-color: rgb(255, 255, 137);
+    font-size: 30px;
+    background-color: rgb(255, 255, 0);
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 200px;
+    right: 200px;
     bottom: 0;
     top: 0;
-    height: 80px;
+    height: 50px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
 }
 
+.controls-box {
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    bottom: 25px;
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.controls-box div {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.controls-box img {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.menu-buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#mute-button-startscreen {
+    margin-top: 5px;
+}
+
+.menu-buttons button {
+    cursor: pointer;
+    background-color: rgb(221, 221, 1);
+    border: none;
+    font-weight: bold;
+    border-radius: 12px;
+    width: 80px;
+}
+
+.menu-buttons button:hover {
+    background-color: yellow;
+}
+
 @media only screen and (max-width: 720px) {
     canvas {
+        background-image: url('./img/9.Intro _ Outro Image/Start Screen/Opción 1.png');
+        background-size: cover;
         width: 100%;
         margin-bottom: 0px;
     }
@@ -73,12 +178,15 @@ canvas {
     }
     .canvas-wrap {
         padding-top: 50px;
+        margin-bottom: 0px;
         width: 100%;
     }
     .mobile-buttons {
-        position: absolute;
+        cursor: pointer;
+        position: absolute, fixed;
         bottom: 150px;
         width: 100%;
+        margin-top: 30px;
         display: flex;
         justify-content: space-around;
     }
@@ -102,6 +210,62 @@ canvas {
         margin-left: 5px;
         margin-right: 5px;
     }
+    .controls-box {
+        display: none;
+    }
+    .startscreen {
+        display: block;
+        width: 100%;
+        height: 300px;
+    }
+    .startscreen img {
+        display: none;
+    }
+    .game-over-screen {
+        box-sizing: content-box;
+        top: 50px;
+        width: 100%;
+        height: auto;
+    }
+    .game-over-screen img {
+        width: 100%;
+        height: 100%;
+    }
+    .game-over-screen button {
+        font-size: 15px;
+        left: 80px;
+        right: 80px;
+    }
+    .win-screen {
+        box-sizing: content-box;
+        top: 50px;
+        width: 100%;
+        height: auto;
+    }
+    .win-screen img {
+        width: 100%;
+        height: 100%;
+    }
+    .win-screen button {
+        font-size: 15px;
+        left: 80px;
+        right: 80px;
+    }
+    .start-button {
+        font-size: 15px;
+        background-color: rgb(255, 255, 0);
+        position: absolute;
+        left: 100px;
+        right: 100px;
+        bottom: 0;
+        top: 10px;
+        height: 50px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    #mute-button-startscreen {
+        margin-top: 15px;
+    }
 }
 
 @media only screen and (max-height: 480px) {
@@ -112,11 +276,13 @@ canvas {
     }
     .canvas-wrap {
         width: 100%;
+        margin-bottom: 0px;
     }
     h1 {
         display: none;
     }
     .mobile-buttons {
+        cursor: pointer;
         opacity: 0.5;
         position: absolute;
         bottom: 1px;
@@ -126,6 +292,9 @@ canvas {
     }
     .mobile-buttons img {
         width: 48px;
+    }
+    .mobile-move-buttons {
+        margin-right: 150px;
     }
     .button-left {
         margin-left: 5px;
@@ -142,5 +311,77 @@ canvas {
     .button-throw {
         margin-left: 5px;
         margin-right: 5px;
+    }
+    .controls-box {
+        display: none;
+    }
+    .startscreen {
+        width: 100%;
+        height: 100%;
+    }
+    .startscreen img {
+        width: 100%;
+        height: 100%;
+    }
+    .game-over-screen {
+        width: 100%;
+        height: 100%;
+    }
+    .game-over-screen img {
+        width: 100%;
+        height: 100%;
+    }
+    .game-over-screen button {
+        font-size: 15px;
+        left: 150px;
+        right: 150px;
+    }
+    .win-screen {
+        width: 100%;
+        height: 100%;
+    }
+    .win-screen img {
+        width: 100%;
+        height: 100%;
+    }
+    .win-screen button {
+        font-size: 15px;
+        left: 150px;
+        right: 150px;
+    }
+    .start-button {
+        position: absolute;
+        font-size: 20px;
+        left: 150px;
+        right: 150px;
+        bottom: 0;
+        top: 10px;
+        height: 50px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    #mute-button-startscreen {
+        margin-top: 15px;
+    }
+    .menu-buttons {
+        position: absolute;
+        top: 3px;
+        right: 10px;
+    }
+}
+
+@media only screen and (max-height: 820px) {
+    .controls-box {
+        position: absolute;
+        bottom: 300px;
+        right: 20px;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+}
+
+@media only screen and (max-width: 1185px) {
+    .controls-box {
+        display: none;
     }
 }

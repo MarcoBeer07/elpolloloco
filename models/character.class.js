@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 2.2;
+    speed = 8;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -67,6 +67,7 @@ class Character extends MovableObject {
     walking_sound = new Audio('audio/running.mp3');
     jumpSound = new Audio('audio/jump.mp3');
     hurtSound = new Audio('audio/hurt.mp3');
+    looseSound = new Audio('./audio/looseSound.wav');
 
     constructor() {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png')
@@ -77,10 +78,13 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
-        this.animate();
+        this.characterMovements();
+        this.characterAnimation();
+        this.stopCharacterAndWaitForEndboss();
         this.walking_sound.volume = 0.1;
         this.jumpSound.volume = 0.5;
         this.hurtSound.volume = 0.5;
+        this.looseSound.volume = 0.3;
         this.energy = 100;
         this.height = 240;
         this.width = 90;
@@ -88,7 +92,7 @@ class Character extends MovableObject {
         this.y = 185;
     }
 
-    animate() {
+    characterMovements() {
         this.characterMovement = setInterval(() => {
             this.walking_sound.pause();
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -111,10 +115,13 @@ class Character extends MovableObject {
             }
             this.world.camera_x = -this.x + 100;
         }, 100 / 60)
+    }
 
+    characterAnimation() {
         this.characterAnimation = setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.gameOver()
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 //this.hurtSound.play();
@@ -128,6 +135,31 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
             }
         }, 10000 / 60)
+    }
+
+    stopCharacterAndWaitForEndboss() {
+        this.stopCharacter = setInterval(() => {
+            if (this.x > 9380) {
+                this.walking_sound.pause();
+                clearInterval(this.characterMovement);
+                setTimeout(() => {
+                    this.startCharacter();
+                }, 9300);
+                clearInterval(this.stopCharacter);
+            }
+        }, 100 / 60);
+
+    }
+
+    startCharacter() {
+        this.characterMovements();
+    }
+
+    gameOver() {
+        clearInterval(this.characterMovement)
+        gameSound.pause();
+        this.looseSound.play();
+        document.getElementById('game-over-screen').classList.remove('d-none');
     }
 }
 

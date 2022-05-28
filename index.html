@@ -33,28 +33,48 @@
 
 </head>
 
-<body onload="init()">
+<body onload="startScreen()">
 
-    <div id="startscreen" class="startscreen d-none">
-        <button onclick="init()" class="start-button">START GAME</button>
+    <div id="startscreen" class="startscreen">
+        <button id="start-button" onclick="startGame()" class="start-button">START GAME</button>
+        <div class="menu-buttons">
+            <button id="mute-button-startscreen" onclick="muteMusicStartScreen()">Music on</button>
+        </div>
         <img src="img/9.Intro _ Outro Image/Start Screen/Opción 1.png" alt="">
     </div>
     <h1>EL POLLO LOCO</h1>
 
     <div class="canvas-wrap">
         <canvas id="canvas" width="720" height="480"></canvas>
-        <div class="mobile-buttons">
+        <div id="mobile-buttons" class="mobile-buttons">
             <div class="mobile-move-buttons">
                 <img class="button-left" src="./img/mobile/arrow-left.png" id="btnLeft"></img>
                 <img class="button-right" src="./img/mobile/arrow-right.png" id="btnRight"></img>
-
             </div>
             <div class="mobile-jump-and-throw-button">
                 <img class="button-jump" src="./img/mobile/arrow-up.png" id="btnJump"></img>
                 <img class="button-throw" src="./img/mobile/bottle.png" id="btnThrow"></img>
             </div>
         </div>
+        <div id="menu-buttons" class="menu-buttons d-none">
+            <button id="mute-button-game" onclick="muteMusicGame()">Music off</button>
+            <button onclick="world.restartGame()">Restart</button>
+        </div>
+        <div id="game-over-screen" class="game-over-screen d-none">
+            <img src="./img/9.Intro _ Outro Image/_Game over_ screen/3.Game over.png" alt="">
+            <button onclick="world.restartGame()">RESTART GAME</button>
+        </div>
+        <div id="win-screen" class="win-screen d-none">
+            <img src="./img/9.Intro _ Outro Image/Start Screen/Opción2.png" alt="">
+            <button onclick="world.restartGame()">RESTART GAME</button>
+        </div>
+    </div>
 
+    <div class="controls-box">
+        <div><img src="./img/controls/letter-a-128.png" alt=""> = MOVE LEFT </div>
+        <div><img src="./img/controls/letter-d-128.png" alt=""> = MOVE RIGHT </div>
+        <div><img src="./img/controls/enter-128.png" alt=""> = THROW BOTTLE </div>
+        <div><img src="./img/controls/myspace-128.png" alt=""> = JUMP</div>
     </div>
 
 

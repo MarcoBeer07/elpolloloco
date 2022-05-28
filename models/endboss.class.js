@@ -45,9 +45,15 @@ class Endboss extends MovableObject {
     bossDead = false;
     startAttacking = false;
     speed = 2000;
-    walking_sound = new Audio('audio/running.mp3');
-    bossfightSound = new Audio('audio/endboss.mp3');
+    endbossWalkingSound = new Audio('./audio/running.mp3');
+    bossfightSound = new Audio('./audio/endbossMusic.mp3');
+    endbossHurtSound = new Audio('./audio/endbossHurt.mp3');
+    endbossDeadSound = new Audio('./audio/endbossDead.mp3');
+    winSound = new Audio('./audio/winSound.wav');
+
     startBossFight = false;
+    bottleThrow = true;
+    victory = false;
 
 
     constructor(world) {
@@ -58,10 +64,16 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACK);
         this.checkForBossFight();
-        this.startCharacterAndBossfightSound();
-        this.animate();
+        this.startBossfight();
+        this.endbossStartAnimation();
+        this.endbossDeadAnimation();
+        this.endbossHurtAnimation();
+        this.winnedBossFight();
         this.world = world;
-        this.bossfightSound.volume = 0.3;
+        this.bossfightSound.volume = 0.2;
+        this.endbossWalkingSound.volume = 0.15;
+        this.winSound.volume = 0.4;
+        this.winSound.loop = true;
         this.energy = 100;
         this.height = 400;
         this.width = 350;
@@ -70,25 +82,61 @@ class Endboss extends MovableObject {
         this.speed = 10;
     }
 
-    animate() {
+    endbossStartAnimation() {
         let i = 0;
         this.enbossAnimation = setInterval(() => {
             if (this.startBossFight) {
-                if (i < 30) {
+                if (i < 30 && !this.bossHitted) {
                     this.endbossWalking();
-                } else if (i > 30 && i < 55) {
+                    this.bottleThrow = false;
+                } else if (i > 30 && i < 55 && !this.bossHitted) {
                     this.playAnimation(this.IMAGES_IDLE);
-                } else if (i > 55 && i < 60) {
+                    this.endbossWalkingSound.pause();
+                } else if (i > 55 && i < 60 && !this.bossHitted) {
                     this.playAnimation(this.IMAGES_DAMAGE);
+                    this.endbossHurtSound.play();
                 } else if (i > 60) {
                     this.enbossAttacking();
-                } else if (this.bossHitted && !this.bossDead) {
-                    this.endbossHitted();
-                } else if (this.bossDead) {
-                    this.endbossDead();
-                };
+                }
                 i++;
-                console.log(world.character.x)
+            }
+        }, 150)
+    }
+
+    endbossDeadAnimation() {
+        this.endbossDefeated = setInterval(() => {
+            if (this.bossDead && !this.victory) {
+                this.endbossDead();
+                this.endbossDeadSound.play();
+                setTimeout(() => {
+                    this.victory = true
+                }, 5000);
+            }
+        }, 150)
+    }
+
+    winnedBossFight() {
+        this.winnedFight = setInterval(() => {
+            if (this.victory) {
+                this.bossfightSound.pause();
+                this.endbossDeadSound.pause();
+                this.winGame();
+                clearInterval(this.winnedFight);
+            }
+        }, 150)
+    }
+
+    winGame() {
+        this.winSound.play();
+        clearInterval(world.character.characterMovement);
+        document.getElementById('win-screen').classList.remove('d-none');
+    }
+
+    endbossHurtAnimation() {
+        setInterval(() => {
+            if (this.bossHitted && !this.bossDead) {
+                this.endbossHitted();
+                this.endbossHurtSound.play();
             }
         }, 150)
     }
@@ -99,67 +147,38 @@ class Endboss extends MovableObject {
                 clearInterval(this.endbossAnimation);
             } else if (world.character.x > 9380) {
                 this.startBossFight = true;
-                world.gameSound.pause();
-                clearInterval(world.character.characterMovement);
+                gameSound.pause();
             }
         }, 150);
     }
 
-    startCharacterAndBossfightSound() {
-        setInterval(() => {
-            if (this.startBossFight) {
-                setTimeout(() => {
-                    world.character.animate();
-                    this.bossfightSound.play();
-                }, 10000);
+    startBossfight() {
+        this.bossfightMusic = setInterval(() => {
+            if (this.startAttacking) {
+                this.startBossfightMusic();
+                this.bottleThrow = true;
+                clearInterval(this.bossfightMusic);
+            } else if (this.victory) {
+                this.bossfightSound.pause();
             }
-        }, 10000 / 60);
+        }, 150);
     }
 
+    startBossfightMusic() {
+        this.bossfightSound.play();
+        clearInterval(this.bossfightMusic);
+    }
 
-
-
-    /*if (this.world.character.x <= 9000) {
-        clearInterval(this.endbossAnimation);
-        //this.world.gameSound.pause();
-    } else if (this.world.character.x > 9000) {
-        this.world.gameSound.pause();
-        clearInterval(this.world.character.characterMovement);
-        this.animate();
+    endBossDeadSound() {
+        this.endbossDeadSound.play();
         setTimeout(() => {
-            this.world.character.animate();
-            //this.bossfightSound.play();
-            this.bossfightSound.loop = true;
-        }, 10000);
-    }*/
-
-
-    /*animate() {
-        let i = 0;
-
-        this.enbossAnimation = setInterval(() => {
-            if (i < 30 && !this.bossHitted && !this.bossDead) {
-                this.endbossWalking();
-            } else if (i > 30 && i < 55 && !this.bossHitted && !this.bossDead) {
-                this.playAnimation(this.IMAGES_IDLE);
-            } else if (i > 55 && i < 60 && !this.bossHitted && !this.bossDead) {
-                this.playAnimation(this.IMAGES_DAMAGE);
-            } else if (i > 60 && !this.bossHitted && !this.bossDead) {
-                this.enbossAttacking();
-            } else if (this.bossHitted && !this.bossDead) {
-                this.endbossHitted();
-            } else if (this.bossDead) {
-                this.endbossDead();
-            };
-            i++;
-
-        }, 150)
-    }*/
-
+            this.endbossDeadSound.pause();
+        }, 4000);
+    }
 
     endbossWalking() {
         this.playAnimation(this.IMAGES_WALKING);
-        //this.walking_sound.play();
+        this.endbossWalkingSound.play();
         this.moveLeft();
     }
 
@@ -178,7 +197,6 @@ class Endboss extends MovableObject {
     endbossDead() {
         this.playAnimation(this.IMAGES_DEAD);
         this.clearDeadBoss();
+        this.startAttacking = false;
     }
-
 }
-//this.world.character.x > 8500 &&
