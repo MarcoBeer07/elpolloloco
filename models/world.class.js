@@ -84,7 +84,7 @@ class World {
      */
     checkThrowObjects(index) {
         this.level.endboss.forEach(endboss => {
-            if (this.keyboard.ENTER && this.collectedBottles.length > 0 && endboss.bottleThrow) {
+            if (this.keyboard.ENTER && this.collectedBottles.length > 0 && endboss.bottleThrow && !endboss.bossDead) {
                 let bottle = new ThrowableObject(this.character.x + 20, this.character.y + 100)
                 this.bottleThrowSound.play();
                 this.throwedBottles.push(bottle);
@@ -119,7 +119,7 @@ class World {
                 }
                 chicken.bottleHitsChicken = true;
                 setTimeout(() => {
-                    this.level.chickens.splice(0, 1);
+                    chicken.y = 500;
                 }, 3000);
             }
         });

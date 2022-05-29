@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    speed = 2.2;
+    speed = 8;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',

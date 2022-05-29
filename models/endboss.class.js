@@ -179,8 +179,6 @@ class Endboss extends MovableObject {
                 this.bossfightSound.play();
                 this.bottleThrow = true;
                 clearInterval(this.bossfightMusic);
-            } else if (this.victory) {
-                this.bossfightSound.pause();
             }
         }, 150);
     }
@@ -190,6 +188,7 @@ class Endboss extends MovableObject {
      */
     endBossDeadSound() {
         this.endbossDeadSound.play();
+        this.bottleThrow = false;
         setTimeout(() => {
             this.endbossDeadSound.pause();
         }, 4000);
