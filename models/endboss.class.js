@@ -63,16 +63,16 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DAMAGE);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_ATTACK);
-        this.checkForBossFight();
-        this.startBossfight();
         this.endbossStartAnimation();
+        this.checkForBossFight();
+        this.startBossfightMusic();
         this.endbossDeadAnimation();
         this.endbossHurtAnimation();
         this.winnedBossFight();
         this.world = world;
-        this.bossfightSound.volume = 0.2;
-        this.endbossWalkingSound.volume = 0.1;
-        this.winSound.volume = 0.4;
+        this.bossfightSound.volume = 0.1;
+        this.endbossWalkingSound.volume = 0.08;
+        this.winSound.volume = 0.3;
         this.winSound.loop = true;
         this.energy = 100;
         this.height = 400;
@@ -128,6 +128,7 @@ class Endboss extends MovableObject {
         this.winnedFight = setInterval(() => {
             if (this.victory) {
                 this.bossfightSound.pause();
+                this.bossfightSound.muted = true;
                 this.endbossDeadSound.pause();
                 this.winGame();
                 clearInterval(this.winnedFight);
@@ -173,14 +174,15 @@ class Endboss extends MovableObject {
     /**
      *  Checks if the endboss is started to attacking, if yes, it let the character throw bottles again and plays the bossfight music
      */
-    startBossfight() {
+    startBossfightMusic() {
         this.bossfightMusic = setInterval(() => {
             if (this.startAttacking) {
-                this.bossfightSound.play();
                 this.bottleThrow = true;
+                this.bossfightSound.play();
+                console.log(this.bossfightSound)
                 clearInterval(this.bossfightMusic);
             }
-        }, 150);
+        }, 5000);
     }
 
     /**
@@ -227,6 +229,5 @@ class Endboss extends MovableObject {
     endbossDead() {
         this.playAnimation(this.IMAGES_DEAD);
         this.clearDeadBoss();
-        this.startAttacking = false;
     }
 }

@@ -221,7 +221,6 @@ class World {
                     this.endboss.hit(0.07);
                     this.bossBar.setPercentageHealth(this.endboss.energy);
                 } else if (this.endboss.energy == 0) {
-                    bottle.bottleHitsEnemy = true;
                     endboss.bossDead = true;
                     this.removeSplashedBottle();
                 }
