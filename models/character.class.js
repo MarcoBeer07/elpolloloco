@@ -1,5 +1,4 @@
 class Character extends MovableObject {
-    speed = 2.2;
 
     IMAGES_WALKING = [
         'img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png',
@@ -68,8 +67,10 @@ class Character extends MovableObject {
     jumpSound = new Audio('./audio/jump.mp3');
     hurtSound = new Audio('./audio/hurt.mp3');
     looseSound = new Audio('./audio/looseSound.wav');
+    lastThrow = 0;
+    speed = 2.2;
 
-    constructor() {
+    constructor(world) {
         super().loadImage('img/2.Secuencias_Personaje-Pepe-corrección/2.Secuencia_caminata/W-21.png')
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_IDLE);
@@ -81,6 +82,7 @@ class Character extends MovableObject {
         this.characterMovements();
         this.characterAnimation();
         this.stopCharacterAndWaitForEndboss();
+        this.world = world;
         this.walking_sound.volume = 0.1;
         this.jumpSound.volume = 0.5;
         this.hurtSound.volume = 0.5;
@@ -188,5 +190,12 @@ class Character extends MovableObject {
         gameSound.pause();
         this.looseSound.play();
         document.getElementById('game-over-screen').classList.remove('d-none');
+    }
+
+    /**
+     * Returns true if timePassed > 0.5 seconds
+     */
+    timePassedAfterThrow() {
+        return this.timerOfAction(this.lastThrow) > 1;
     }
 }

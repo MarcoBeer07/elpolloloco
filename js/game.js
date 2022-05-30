@@ -15,6 +15,7 @@ function startScreen() {
 }
 
 function startGame() {
+    document.getElementById('mute-button-game').blur();
     canvas = document.getElementById('canvas');
     document.getElementById('menu-buttons').classList.remove('d-none');
     document.getElementById('startscreen').classList.add('d-none');

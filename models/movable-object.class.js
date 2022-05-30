@@ -124,4 +124,14 @@ class MovableObject extends DrawableObject {
             }, 1200);
         }, 5000 / 60);
     }
+
+    /**
+     * Calculates the passed time from an event and returns it in seconds
+     * 
+     */
+    timerOfAction(lastActionEventTime) {
+        let timePassed = new Date().getTime() - lastActionEventTime; // difference in ms
+        timePassed = timePassed / 1000; // difference in seconds
+        return timePassed; // time while return true
+    }
 }

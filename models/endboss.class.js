@@ -55,7 +55,6 @@ class Endboss extends MovableObject {
     bottleThrow = true;
     victory = false;
 
-
     constructor(world) {
         super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_IDLE);
@@ -65,12 +64,12 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.endbossStartAnimation();
         this.checkForBossFight();
-        this.startBossfightMusic();
         this.endbossDeadAnimation();
         this.endbossHurtAnimation();
+        this.startBossfightMusic();
         this.winnedBossFight();
         this.world = world;
-        this.bossfightSound.volume = 0.1;
+        this.bossfightSound.volume = 0.25;
         this.endbossWalkingSound.volume = 0.08;
         this.winSound.volume = 0.3;
         this.winSound.loop = true;
@@ -128,7 +127,6 @@ class Endboss extends MovableObject {
         this.winnedFight = setInterval(() => {
             if (this.victory) {
                 this.bossfightSound.pause();
-                this.bossfightSound.muted = true;
                 this.endbossDeadSound.pause();
                 this.winGame();
                 clearInterval(this.winnedFight);
@@ -176,13 +174,19 @@ class Endboss extends MovableObject {
      */
     startBossfightMusic() {
         this.bossfightMusic = setInterval(() => {
-            if (this.startAttacking) {
+            if (this.startAttacking && !this.bossMusicIsPlayed) {
                 this.bottleThrow = true;
-                this.bossfightSound.play();
+                this.bossMusicIsPlayed = true;
+                this.playbossfight();
+                clearInterval(this.bossfightMusic)
                 console.log(this.bossfightSound)
-                clearInterval(this.bossfightMusic);
             }
-        }, 5000);
+        }, 150);
+    }
+
+    playbossfight() {
+        this.bossfightSound.play();
+
     }
 
     /**
@@ -210,7 +214,6 @@ class Endboss extends MovableObject {
      */
     enbossAttacking() {
         this.playAnimation(this.IMAGES_ATTACK);
-        this.startAttacking = true;
     }
 
     /**

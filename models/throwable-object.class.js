@@ -14,18 +14,20 @@ class ThrowableObject extends MovableObject {
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 11.png',
         'img/6.botella/Rotación/Splash de salsa/Mesa de trabajo 1 copia 12.png',
     ]
+    level = level1;
     world;
     bottleHitsEnemy = false;
 
 
-    constructor(x, y) {
+    constructor(x, y, world) {
         super().loadImage('img/7.Marcadores/Icono/Botella.png');
         this.loadImages(this.IMAGES_SALSA);
         this.loadImages(this.IMAGES_SALSA_SPLASH);
-        this.throw();
         this.bottleAnimation();
         this.x = x;
         this.y = y;
+        this.world = world;
+        this.throw();
         this.height = 70;
         this.width = 60;
     }
